@@ -8,6 +8,13 @@ import { C } from "@/lib/ui";
  * renderizadas estaticamente: o reveal "compile", a contagem das stats, as
  * células da matrix de ingest e o desenho das sparklines.
  */
+
+// Tempos das animações de scroll, em ms. Ficam juntos aqui porque são
+// calibragem visual: mexer em um sem olhar os outros descompassa a cena.
+const REVEAL_MS = 1100; // o wipe "compile" que traz cada bloco
+const COUNT_MS = 900; // a contagem das stats
+const SPARK_MS = 1100; // o traço das sparklines
+
 export function SiteEffects() {
   useEffect(() => {
     const reduced = window.matchMedia?.(
@@ -41,7 +48,7 @@ export function SiteEffects() {
 
     const countUp = (el: HTMLElement) => {
       const target = parseInt(el.getAttribute("data-count") || "0", 10) || 0;
-      const dur = 900;
+      const dur = COUNT_MS;
       const start = performance.now();
       const step = (now: number) => {
         const t = Math.min(1, (now - start) / dur);
@@ -64,13 +71,12 @@ export function SiteEffects() {
           io.unobserve(el);
           if (el.hasAttribute("data-count")) return countUp(el);
           el.style.opacity = "1";
-          el.style.animation = "compile 640ms cubic-bezier(.16,1,.3,1) forwards";
+          el.style.animation = `compile ${REVEAL_MS}ms cubic-bezier(.16,1,.3,1) forwards`;
           el.querySelectorAll<SVGPathElement>("[data-spark]").forEach((p) => {
             const len = p.getTotalLength();
             p.style.strokeDasharray = String(len);
             p.style.strokeDashoffset = String(len);
-            p.style.transition =
-              "stroke-dashoffset 1100ms cubic-bezier(.16,1,.3,1)";
+            p.style.transition = `stroke-dashoffset ${SPARK_MS}ms cubic-bezier(.16,1,.3,1)`;
             requestAnimationFrame(() => (p.style.strokeDashoffset = "0"));
           });
         });
