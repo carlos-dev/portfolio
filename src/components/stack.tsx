@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { deps, practices, type Dep, type Practice } from "@/lib/content";
+import { deps, practices, type Dep } from "@/lib/content";
 
 // Espaços não-quebráveis mantêm a árvore ASCII alinhada depois que o HTML
 // colapsa sequências de espaço.
@@ -15,13 +15,6 @@ const ai = deps.filter((dep) => dep.group === "ai");
 const infrastructure = deps.filter((dep) => dep.group === "infrastructure");
 const byKey = new Map(deps.map((dep) => [dep.key, dep]));
 
-// Método de IA renderiza dentro do galho `ai`, junto das ferramentas; o resto
-// fica no `scripts`. A distinção ferramenta/método continua legível pela
-// gramática da árvore: versão de um lado, seta do outro.
-const aiPractices = practices.filter((practice) => practice.group === "ai");
-const craftPractices = practices.filter(
-  (practice) => practice.group === "scripts",
-);
 
 // IMPORTANTE: fica no escopo do módulo, não dentro de <Stack>. Definido lá
 // dentro, virava um tipo de componente novo a cada render — React remontava
@@ -56,22 +49,9 @@ function DepLine({
       >
         {dep.name}
       </button>
-      <span className="text-dim-3"> {dep.version}</span>
-    </div>
-  );
-}
-
-function PracticeLine({
-  practice,
-  last,
-}: {
-  practice: Practice;
-  last: boolean;
-}) {
-  return (
-    <div className="text-dim-3">
-      <span className="text-line-2">{`│${NBSP}${last ? "└─" : "├─"} `}</span>
-      {practice.name} <span className="text-line-2">→</span> {practice.text}
+      {dep.version ? (
+        <span className="text-dim-3"> {dep.version}</span>
+      ) : null}
     </div>
   );
 }
@@ -113,20 +93,13 @@ export function Stack() {
           <div className="text-dim-3">
             ├─ <span className="text-dim-2">ai</span>
           </div>
-          {ai.map((dep) => (
+          {ai.map((dep, index) => (
             <DepLine
               key={dep.key}
               dep={dep}
-              last={false}
+              last={index === ai.length - 1}
               active={active}
               onActivate={setActive}
-            />
-          ))}
-          {aiPractices.map((practice, index) => (
-            <PracticeLine
-              key={practice.name}
-              practice={practice}
-              last={index === aiPractices.length - 1}
             />
           ))}
 
@@ -146,9 +119,9 @@ export function Stack() {
           <div className="text-dim-3">
             └─ <span className="text-dim-2">scripts</span>
           </div>
-          {craftPractices.map((practice, index) => (
+          {practices.map((practice, index) => (
             <div key={practice.name} className="text-dim-3">
-              {`${INDENT}${index === craftPractices.length - 1 ? "└─" : "├─"} ${practice.name} `}
+              {`${INDENT}${index === practices.length - 1 ? "└─" : "├─"} ${practice.name} `}
               <span className="text-line-2">→</span> {practice.text}
             </div>
           ))}
@@ -170,8 +143,13 @@ export function Stack() {
               : "Passe o mouse (ou tab) por uma dependência para ver como ela é usada de verdade — sem barrinha de porcentagem."}
           </p>
           <div className="mt-6 border-t border-line pt-[18px] font-mono text-[11px] text-dim-2">
-            <span className="text-dim-3">used in:</span>{" "}
-            {current ? current.used : "—"}
+            {/* Método não tem "onde roda" — só ferramenta tem. */}
+            {current && !current.used ? null : (
+              <>
+                <span className="text-dim-3">used in:</span>{" "}
+                {current ? current.used : "—"}
+              </>
+            )}
           </div>
         </div>
       </div>

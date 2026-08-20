@@ -193,10 +193,11 @@ export type Stat = {
 export type Dep = {
   key: string;
   name: string;
-  version: string;
+  // Ferramenta tem versão e lugar onde roda; método não tem nem um nem outro.
+  version?: string;
   group: "dependencies" | "ai" | "infrastructure";
   desc: string;
-  used: string;
+  used?: string;
 };
 
 export const deps: Dep[] = [
@@ -273,6 +274,30 @@ export const deps: Dep[] = [
     used: "ferramental próprio",
   },
   {
+    key: "prompt",
+    name: "prompt",
+    group: "ai",
+    desc: "Contrato, não conversa. Se a saída não tem schema, aquilo não é integração — é sorte com um passo manual depois.",
+  },
+  {
+    key: "agent",
+    name: "agent",
+    group: "ai",
+    desc: "Ferramenta estreita e log de tudo. Agente genérico erra bonito; agente com três tools e trilha de execução dá para depurar.",
+  },
+  {
+    key: "rag",
+    name: "rag",
+    group: "ai",
+    desc: "Recuperar é ranquear. Embedding não salva busca ruim: se o trecho certo não está no top-k, o modelo inventa com confiança.",
+  },
+  {
+    key: "eval",
+    name: "eval",
+    group: "ai",
+    desc: "Medir antes de trocar de modelo. Sem conjunto de avaliação, \"melhorou\" é impressão — e impressão não sobrevive ao próximo release do provedor.",
+  },
+  {
     key: "postgresql",
     name: "postgresql",
     version: "^16",
@@ -303,30 +328,23 @@ export const deps: Dep[] = [
 export const stats: Stat[] = [
   { value: 8, label: "ANOS DE OFÍCIO", count: true, accent: true },
   { value: 4, label: "SISTEMAS EM PÉ", count: true },
-  { value: deps.length, label: "TECNOLOGIAS NA CAIXA", count: true },
+  {
+    // Só o que tem versão: método não é tecnologia na caixa.
+    value: deps.filter((dep) => dep.version).length,
+    label: "TECNOLOGIAS NA CAIXA",
+    count: true,
+  },
   { value: 1, label: "PRODUTO PRÓPRIO", count: false },
 ];
 
 // Método, não comando: o galho `scripts` da árvore é uma piada da metáfora do
-// package.json. `group` diz em que galho a linha aparece — as de IA ficam junto
-// das ferramentas de IA, senão quem procura o assunto acha metade do sinal.
-export type Practice = { name: string; text: string; group: "ai" | "scripts" };
+// package.json. Os dois que o design original trouxe, e que são ofício geral —
+// o método de IA vive no galho `ai`, junto das ferramentas.
+export type Practice = { name: string; text: string };
 
 export const practices: Practice[] = [
-  { name: "build", text: "ship pequeno, cedo, com log", group: "scripts" },
-  { name: "debug", text: "ler o erro inteiro antes de opinar", group: "scripts" },
-  {
-    name: "prompt",
-    text: "contrato, não conversa: schema na saída",
-    group: "ai",
-  },
-  { name: "agent", text: "ferramenta estreita, log de tudo", group: "ai" },
-  {
-    name: "rag",
-    text: "recuperar é ranquear; embedding não salva busca ruim",
-    group: "ai",
-  },
-  { name: "eval", text: "medir antes de trocar de modelo", group: "ai" },
+  { name: "build", text: "ship pequeno, cedo, com log" },
+  { name: "debug", text: "ler o erro inteiro antes de opinar" },
 ];
 
 export const about = [
