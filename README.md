@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# carlosandre.dev — portfólio
 
-## Getting Started
+Portfólio pessoal com conceito de **"sistema vivo"**: a interface se comporta como
+um sistema em execução — dá boot, digita sozinha, exibe dados vivos e responde.
 
-First, run the development server:
+Stack: **Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4**. Dark minimal
+com um único acento lime (`#a3e635`), tipografia Inter Tight + JetBrains Mono.
+
+## Rodar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # desenvolvimento (http://localhost:3000)
+npm run build   # build de produção
+npm run start   # servir o build
+npm run lint    # eslint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estrutura
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/
+    layout.tsx        # fontes (next/font), metadata
+    page.tsx          # compõe as seções + build stamp
+    globals.css       # tema Tailwind v4 (@theme: cores, fontes, escala tipográfica, animações) + keyframes
+  components/
+    site-header.tsx   # header fixo + relógio vivo   (client)
+    hero.tsx          # boot section + nome + metadados
+    terminal.tsx      # terminal que digita sozinho e aceita comandos (client)
+    selected-work.tsx # cards de projeto + vizualizações vivas + stats
+    stack.tsx         # árvore de dependências + inspector (client)
+    about.tsx         # texto sobre
+    site-footer.tsx   # contato estilo terminal + heatmap em canvas (client)
+    site-effects.tsx  # reveal on-scroll, count-up, matrix, sparklines (client)
+  lib/
+    content.ts        # TODO O CONTEÚDO editável: perfil, projetos, deps, comandos
+    ui.ts             # cores hex (só p/ o canvas/matrix gerados em JS)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Como editar o conteúdo
 
-## Learn More
+Quase tudo vive em **`src/lib/content.ts`**:
 
-To learn more about Next.js, take a look at the following resources:
+- `profile` — nome, papel, localização, e-mail, GitHub, produto.
+- `projects` — os cards de "Selected Work" (título, tag, stack, descrição, viz, status).
+- `deps` — a árvore de dependências e os textos do inspector.
+- `SCRIPT` / `COMMANDS` / `SECRET_COMMAND` — o boot e os comandos do terminal.
+- `about` — os parágrafos da seção sobre.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Formulário de contato (Resend)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O footer tem um formulário em estilo terminal que envia e-mail via **server action**
+(`src/app/actions/contact.ts`) usando [Resend](https://resend.com). Sem configuração
+ele mostra um erro tratado e os canais diretos continuam funcionando.
 
-## Deploy on Vercel
+Para ativar:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Crie uma API key gratuita em https://resend.com/api-keys.
+2. `cp .env.example .env.local` e preencha `RESEND_API_KEY`.
+3. (Opcional) `CONTACT_TO_EMAIL` e `CONTACT_FROM_EMAIL`. Enquanto não verificar um
+   domínio próprio na Resend, deixe o remetente `onboarding@resend.dev`.
+4. Na Vercel, adicione as mesmas variáveis em Project → Settings → Environment Variables.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proteções: validação no servidor, honeypot anti-bot e limites de tamanho por campo.
+
+## Notas de implementação
+
+- O design original foi gerado no Claude Design e **portado** para React idiomático:
+  as animações imperativas viraram hooks/efeitos, o styling é todo Tailwind v4 com
+  tokens de tema, o responsivo virou utilities e o hover dos cards virou `group`.
+- Acessibilidade: respeita `prefers-reduced-motion` (sem auto-typing/glitch), foco
+  visível, `aria-live` no terminal e navegação por teclado na árvore de dependências.
+- O terminal aceita: `help`, `whoami`, `ls projects`, `cat about`, `contact`,
+  `theme`, `clear` — e tem um comando escondido.

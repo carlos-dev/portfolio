@@ -32,9 +32,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
+
+# agent skills: .agents/ is committed; .claude/ is a local symlink mirror
+.claude/
 
 # typescript
 *.tsbuildinfo
