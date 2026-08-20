@@ -9,7 +9,7 @@ const BAR_DELAYS = [
 function Visualization({ viz }: { viz: Viz }) {
   if (viz.kind === "bars") {
     return (
-      <span className="flex h-11 items-end gap-[3px]">
+      <span aria-hidden="true" className="flex h-11 items-end gap-[3px]">
         {BAR_DELAYS.map((delay, i) => (
           <i
             key={i}
@@ -124,6 +124,7 @@ function Card({ p }: { p: Project }) {
       {p.href ? (
         <a href={p.href} target="_blank" rel="noopener" className={rowClass}>
           {inner}
+          <span className="sr-only">(abre em nova aba)</span>
         </a>
       ) : (
         <div className={rowClass}>{inner}</div>

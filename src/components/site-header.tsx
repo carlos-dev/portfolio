@@ -26,7 +26,9 @@ export function SiteHeader() {
         <span className="hidden min-[720px]:inline">{profile.location}</span>
         <span className="size-[5px] shrink-0 animate-dot-slow rounded-full bg-accent" />
         <span className="text-accent">SYSTEM ONLINE</span>
-        <span className="min-w-[60px] text-right text-dim-3">{clock}</span>
+        <span aria-hidden="true" className="min-w-[60px] text-right text-dim-3">
+          {clock}
+        </span>
       </span>
     </header>
   );

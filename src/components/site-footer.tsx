@@ -14,10 +14,15 @@ export function SiteFooter({ stamp }: { stamp: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const phaseRef = useRef(0);
 
-  // Breathing contribution heatmap behind the footer.
+  // Breathing contribution heatmap behind the footer. Pintado em rAF e
+  // pausado fora da viewport. O buffer só é redimensionado no resize — antes
+  // era reatribuído a cada frame, o que forçava realocação ~9x por segundo.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     const reduced = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -29,22 +34,28 @@ export function SiteFooter({ stamp }: { stamp: string }) {
       (_, i) => (Math.sin(i * 12.9898) * 43758.5453) % 1,
     );
 
-    const draw = (phase: number) => {
+    let w = 0;
+    let h = 0;
+
+    const resize = () => {
       const dpr = Math.min(2, window.devicePixelRatio || 1);
-      const w = canvas.clientWidth;
-      const h = canvas.clientHeight;
-      if (!w || !h) return;
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      if (!w || !h) return false;
       canvas.width = w * dpr;
       canvas.height = h * dpr;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      ctx.scale(dpr, dpr);
+      // setTransform, não scale: não acumula a cada chamada.
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      return true;
+    };
+
+    const draw = (phase: number) => {
+      if (!w || !h) return;
+      ctx.clearRect(0, 0, w, h);
       const size = Math.max(6, Math.min(13, w / (cols * 1.5)));
       const gap = 3;
-      const gridW = cols * (size + gap);
-      const gridH = rows * (size + gap);
-      const ox = w - gridW - 16;
-      const oy = h - gridH - 16;
+      const ox = w - cols * (size + gap) - 16;
+      const oy = h - rows * (size + gap) - 16;
       for (let c = 0; c < cols; c++) {
         for (let r = 0; r < rows; r++) {
           const v = Math.abs(seed[c * rows + r]);
@@ -57,23 +68,37 @@ export function SiteFooter({ stamp }: { stamp: string }) {
       }
     };
 
-    draw(0);
-    const onResize = () => draw(phaseRef.current);
+    const paint = () => {
+      if (resize()) draw(phaseRef.current);
+    };
+    paint();
+
+    const onResize = () => paint();
     window.addEventListener("resize", onResize);
 
     if (reduced) {
       return () => window.removeEventListener("resize", onResize);
     }
 
+    // Mesma cadência de antes (~9 fps), agora alinhada ao refresh do display.
+    const STEP_MS = 110;
     let visible = false;
+    let last = 0;
+    let frame = 0;
+
+    const tick = (now: number) => {
+      frame = requestAnimationFrame(tick);
+      if (!visible || now - last < STEP_MS) return;
+      last = now;
+      draw((phaseRef.current += 0.18));
+    };
+
     const io = new IntersectionObserver((e) => (visible = e[0].isIntersecting));
     io.observe(canvas);
-    const id = setInterval(() => {
-      if (visible) draw((phaseRef.current += 0.18));
-    }, 110);
+    frame = requestAnimationFrame(tick);
 
     return () => {
-      clearInterval(id);
+      cancelAnimationFrame(frame);
       io.disconnect();
       window.removeEventListener("resize", onResize);
     };
@@ -126,6 +151,7 @@ export function SiteFooter({ stamp }: { stamp: string }) {
                   <span className="text-accent">$</span> {l.cmd} {l.flag}{" "}
                   <span className="text-dim-2">{l.value}</span>
                 </span>
+                {l.external && <span className="sr-only">(abre em nova aba)</span>}
                 <span aria-hidden="true" className="text-line-2">
                   ↗
                 </span>

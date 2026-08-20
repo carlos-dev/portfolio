@@ -5,6 +5,29 @@ import { Stack } from "@/components/stack";
 import { About } from "@/components/about";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteEffects } from "@/components/site-effects";
+import { profile, projects } from "@/lib/content";
+
+// Structured data: ajuda o Google a entender que a página é uma pessoa,
+// não um produto. Conteúdo 100% estático, montado no build.
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  description: profile.tagline,
+  url: profile.siteUrl,
+  email: `mailto:${profile.email}`,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Rio de Janeiro",
+    addressRegion: "RJ",
+    addressCountry: "BR",
+  },
+  sameAs: [profile.githubUrl, profile.productUrl],
+  knowsAbout: [
+    ...new Set(projects.flatMap((p) => p.stack)),
+  ],
+};
 
 export default function Home() {
   // Computed once at build time and embedded in the static HTML.
@@ -14,7 +37,12 @@ export default function Home() {
     .slice(0, 10)}`;
 
   return (
-    <main className="min-h-screen overflow-x-hidden">
+    <main id="conteudo" className="min-h-screen overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        // Dados estáticos definidos acima — nada vem de input do usuário.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
       <SiteHeader />
       <Hero />
       <SelectedWork />

@@ -118,7 +118,7 @@ export function Terminal() {
         <div
           ref={logRef}
           role="log"
-          aria-live="polite"
+          aria-live={typing ? "off" : "polite"}
           aria-label="Saída do terminal"
           className="flex-1 overflow-y-auto px-[14px] py-4 font-mono text-term leading-[1.75]"
         >

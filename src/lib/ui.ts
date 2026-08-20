@@ -10,7 +10,7 @@ export const C = {
   text: "#e4e4e7",
   dim: "#a1a1aa",
   dim2: "#9b9ba4",
-  dim3: "#85858e",
+  dim3: "#8d8d96",
   accent: "#a3e635",
 } as const;
 

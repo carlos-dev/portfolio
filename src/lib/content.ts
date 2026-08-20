@@ -13,6 +13,8 @@ const col = {
 export const profile = {
   name: "Carlos André",
   role: "Full-Stack Engineer",
+  // Domínio canônico. Usado em metadata, sitemap, robots e JSON-LD.
+  siteUrl: "https://carlosandre.dev",
   location: "Rio de Janeiro · BR",
   coords: "-22.91, -43.17",
   years: "08 anos",

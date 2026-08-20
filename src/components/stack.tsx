@@ -77,7 +77,10 @@ export function Stack() {
           </div>
         </div>
 
-        <div className="min-w-0 bg-surface-3 px-gutter py-[clamp(24px,3.5vw,48px)]">
+        <div
+          aria-live="polite"
+          className="min-w-0 bg-surface-3 px-gutter py-[clamp(24px,3.5vw,48px)]"
+        >
           <div className="font-mono text-[10px] tracking-[0.14em] text-dim-3">
             INSPECTOR
           </div>

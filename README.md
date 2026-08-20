@@ -20,9 +20,12 @@ npm run lint    # eslint
 ```
 src/
   app/
-    layout.tsx        # fontes (next/font), metadata
-    page.tsx          # compõe as seções + build stamp
-    globals.css       # tema Tailwind v4 (@theme: cores, fontes, escala tipográfica, animações) + keyframes
+    layout.tsx           # fontes (next/font), metadata, skip-link
+    page.tsx             # compõe as seções + build stamp + JSON-LD
+    globals.css          # tema Tailwind v4 (@theme: cores, fontes, escala tipográfica, animações) + keyframes
+    robots.ts            # robots.txt gerado
+    sitemap.ts           # sitemap.xml gerado
+    opengraph-image.tsx  # card social 1200x630, renderizado no build
   components/
     site-header.tsx   # header fixo + relógio vivo   (client)
     hero.tsx          # boot section + nome + metadados
@@ -69,6 +72,10 @@ Proteções: validação no servidor, honeypot anti-bot e limites de tamanho por
   as animações imperativas viraram hooks/efeitos, o styling é todo Tailwind v4 com
   tokens de tema, o responsivo virou utilities e o hover dos cards virou `group`.
 - Acessibilidade: respeita `prefers-reduced-motion` (sem auto-typing/glitch), foco
-  visível, `aria-live` no terminal e navegação por teclado na árvore de dependências.
+  visível, skip-link, `aria-live` no terminal (ligado só depois do boot, para não
+  anunciar caractere por caractere) e navegação por teclado na árvore de dependências.
+- SEO: canonical, Open Graph + Twitter card com imagem gerada no build, `robots.txt`,
+  `sitemap.xml` e JSON-LD (`Person`). O domínio canônico é `profile.siteUrl`
+  em `src/lib/content.ts` — trocar lá reflete em todos eles.
 - O terminal aceita: `help`, `whoami`, `ls projects`, `cat about`, `contact`,
   `theme`, `clear` — e tem um comando escondido.
