@@ -7,7 +7,7 @@ export const alt = `${profile.name} — ${profile.role}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const C = {
+const colors = {
   bg: "#0a0a0b",
   surface: "#131316",
   surface2: "#1a1a1e",
@@ -28,7 +28,7 @@ export default function OpenGraphImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: C.bg,
+          backgroundColor: colors.bg,
           padding: 56,
         }}
       >
@@ -37,8 +37,8 @@ export default function OpenGraphImage() {
             display: "flex",
             flexDirection: "column",
             flex: 1,
-            border: `1px solid ${C.line}`,
-            backgroundColor: C.surface,
+            border: `1px solid ${colors.line}`,
+            backgroundColor: colors.surface,
           }}
         >
           {/* barra de título da janela */}
@@ -47,23 +47,23 @@ export default function OpenGraphImage() {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              borderBottom: `1px solid ${C.line}`,
-              backgroundColor: C.surface2,
+              borderBottom: `1px solid ${colors.line}`,
+              backgroundColor: colors.surface2,
               padding: "16px 22px",
               fontSize: 18,
               letterSpacing: 2,
-              color: C.dim3,
+              color: colors.dim3,
             }}
           >
             <div style={{ display: "flex", gap: 8 }}>
               <div
-                style={{ width: 11, height: 11, border: `1px solid ${C.line2}` }}
+                style={{ width: 11, height: 11, border: `1px solid ${colors.line2}` }}
               />
               <div
-                style={{ width: 11, height: 11, border: `1px solid ${C.line2}` }}
+                style={{ width: 11, height: 11, border: `1px solid ${colors.line2}` }}
               />
               <div
-                style={{ width: 11, height: 11, border: `1px solid ${C.line2}` }}
+                style={{ width: 11, height: 11, border: `1px solid ${colors.line2}` }}
               />
             </div>
             <div style={{ display: "flex" }}>intro.sh — bash — 80×24</div>
@@ -85,7 +85,7 @@ export default function OpenGraphImage() {
                   display: "flex",
                   fontSize: 22,
                   letterSpacing: 3,
-                  color: C.dim3,
+                  color: colors.dim3,
                 }}
               >
                 00 / BOOT SEQUENCE
@@ -98,11 +98,11 @@ export default function OpenGraphImage() {
                   fontWeight: 800,
                   letterSpacing: -5,
                   lineHeight: 1,
-                  color: C.fg,
+                  color: colors.fg,
                 }}
               >
                 {profile.name}
-                <span style={{ color: C.accent }}>.</span>
+                <span style={{ color: colors.accent }}>.</span>
               </div>
               <div
                 style={{
@@ -111,7 +111,7 @@ export default function OpenGraphImage() {
                   maxWidth: 820,
                   fontSize: 29,
                   lineHeight: 1.4,
-                  color: C.dim,
+                  color: colors.dim,
                 }}
               >
                 {profile.tagline}
@@ -123,16 +123,16 @@ export default function OpenGraphImage() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                borderTop: `1px solid ${C.line}`,
+                borderTop: `1px solid ${colors.line}`,
                 paddingTop: 26,
                 fontSize: 23,
-                color: C.dim3,
+                color: colors.dim3,
               }}
             >
               <div style={{ display: "flex" }}>
                 {profile.role} · {profile.location} · {profile.years}
               </div>
-              <div style={{ display: "flex", color: C.accent }}>
+              <div style={{ display: "flex", color: colors.accent }}>
                 carlosandre.dev
               </div>
             </div>

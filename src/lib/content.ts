@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------------------
 
 // A cor de cada linha do terminal é dado, então referencia o tema via CSS var.
-const col = {
+const colors = {
   fg: "var(--color-fg)",
   dim: "var(--color-dim)",
   dim2: "var(--color-dim-2)",
@@ -32,32 +32,32 @@ export type TermLine = { prefix: string; text: string; color: string };
 
 // A sequência de boot, que se digita sozinha no load.
 export const SCRIPT: TermLine[] = [
-  { prefix: "$", text: "./intro.sh", color: col.fg },
-  { prefix: ">", text: "booting carlosandre.dev...", color: col.dim2 },
-  { prefix: ">", text: "role: full-stack engineer · 8 anos", color: col.fg },
+  { prefix: "$", text: "./intro.sh", color: colors.fg },
+  { prefix: ">", text: "booting carlosandre.dev...", color: colors.dim2 },
+  { prefix: ">", text: "role: full-stack engineer · 8 anos", color: colors.fg },
   {
     prefix: ">",
     text: "stack: [TypeScript, Next.js, Node, PostgreSQL]",
-    color: col.fg,
+    color: colors.fg,
   },
   {
     prefix: ">",
     text: "systems: 4 · own product: cutcast.com.br",
-    color: col.accent,
+    color: colors.accent,
   },
   {
     prefix: ">",
     text: "status: aberto para freelance e conversa",
-    color: col.dim2,
+    color: colors.dim2,
   },
-  { prefix: ">", text: "type 'help' to explore", color: col.fg },
+  { prefix: ">", text: "type 'help' to explore", color: colors.fg },
 ];
 
 export const TYPING_SPEED = 18; // ms per char
 export const SECRET_COMMAND = "sudo hire-me";
 
-const out = (text: string): TermLine => ({ prefix: " ", text, color: col.dim });
-const hi = (text: string): TermLine => ({ prefix: " ", text, color: col.accent });
+const out = (text: string): TermLine => ({ prefix: " ", text, color: colors.dim });
+const hi = (text: string): TermLine => ({ prefix: " ", text, color: colors.accent });
 
 // Saída dos comandos interativos. O `run()` do terminal mapeia entrada para cá.
 export const COMMANDS: Record<string, TermLine[]> = {

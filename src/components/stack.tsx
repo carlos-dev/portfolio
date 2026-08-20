@@ -10,22 +10,22 @@ const INDENT = "   ";
 
 // `deps` é constante de módulo: particionar e indexar a cada render seria
 // trabalho jogado fora.
-const dependencies = deps.filter((d) => d.group === "dependencies");
-const ai = deps.filter((d) => d.group === "ai");
-const infrastructure = deps.filter((d) => d.group === "infrastructure");
-const byKey = new Map(deps.map((d) => [d.key, d]));
+const dependencies = deps.filter((dep) => dep.group === "dependencies");
+const ai = deps.filter((dep) => dep.group === "ai");
+const infrastructure = deps.filter((dep) => dep.group === "infrastructure");
+const byKey = new Map(deps.map((dep) => [dep.key, dep]));
 
 // IMPORTANTE: fica no escopo do módulo, não dentro de <Stack>. Definido lá
 // dentro, virava um tipo de componente novo a cada render — React remontava
 // todas as linhas e o botão que acabara de receber foco era destruído, jogando
 // o foco de volta no <body>. Isso quebrava a navegação por teclado da árvore.
 function DepLine({
-  d,
+  dep,
   last,
   active,
   onActivate,
 }: {
-  d: Dep;
+  dep: Dep;
   last: boolean;
   active: string | null;
   onActivate: (key: string) => void;
@@ -33,7 +33,7 @@ function DepLine({
   const color =
     active === null
       ? "text-fg"
-      : active === d.key
+      : active === dep.key
         ? "text-accent"
         : "text-dim-3";
 
@@ -42,13 +42,13 @@ function DepLine({
       <span className="text-line-2">{`│${NBSP}${last ? "└─" : "├─"} `}</span>
       <button
         type="button"
-        onMouseEnter={() => onActivate(d.key)}
-        onFocus={() => onActivate(d.key)}
+        onMouseEnter={() => onActivate(dep.key)}
+        onFocus={() => onActivate(dep.key)}
         className={`cursor-pointer border-0 bg-transparent p-0 transition-colors duration-[140ms] ${color}`}
       >
-        {d.name}
+        {dep.name}
       </button>
-      <span className="text-dim-3"> {d.version}</span>
+      <span className="text-dim-3"> {dep.version}</span>
     </div>
   );
 }
@@ -77,11 +77,11 @@ export function Stack() {
           <div className="text-dim-3">
             ├─ <span className="text-dim-2">dependencies</span>
           </div>
-          {dependencies.map((d, i) => (
+          {dependencies.map((dep, index) => (
             <DepLine
-              key={d.key}
-              d={d}
-              last={i === dependencies.length - 1}
+              key={dep.key}
+              dep={dep}
+              last={index === dependencies.length - 1}
               active={active}
               onActivate={setActive}
             />
@@ -90,11 +90,11 @@ export function Stack() {
           <div className="text-dim-3">
             ├─ <span className="text-dim-2">ai</span>
           </div>
-          {ai.map((d, i) => (
+          {ai.map((dep, index) => (
             <DepLine
-              key={d.key}
-              d={d}
-              last={i === ai.length - 1}
+              key={dep.key}
+              dep={dep}
+              last={index === ai.length - 1}
               active={active}
               onActivate={setActive}
             />
@@ -103,11 +103,11 @@ export function Stack() {
           <div className="text-dim-3">
             ├─ <span className="text-dim-2">infrastructure</span>
           </div>
-          {infrastructure.map((d, i) => (
+          {infrastructure.map((dep, index) => (
             <DepLine
-              key={d.key}
-              d={d}
-              last={i === infrastructure.length - 1}
+              key={dep.key}
+              dep={dep}
+              last={index === infrastructure.length - 1}
               active={active}
               onActivate={setActive}
             />
@@ -116,10 +116,10 @@ export function Stack() {
           <div className="text-dim-3">
             └─ <span className="text-dim-2">scripts</span>
           </div>
-          {scripts.map((sc, i) => (
-            <div key={sc.name} className="text-dim-3">
-              {`${INDENT}${i === scripts.length - 1 ? "└─" : "├─"} ${sc.name} `}
-              <span className="text-line-2">→</span> {sc.text}
+          {scripts.map((script, index) => (
+            <div key={script.name} className="text-dim-3">
+              {`${INDENT}${index === scripts.length - 1 ? "└─" : "├─"} ${script.name} `}
+              <span className="text-line-2">→</span> {script.text}
             </div>
           ))}
         </div>

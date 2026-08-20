@@ -10,12 +10,12 @@ function Visualization({ viz }: { viz: Viz }) {
   if (viz.kind === "bars") {
     return (
       <span aria-hidden="true" className="flex h-11 items-end gap-[3px]">
-        {BAR_DELAYS.map((delay, i) => (
+        {BAR_DELAYS.map((delay, index) => (
           <i
-            key={i}
+            key={index}
             style={{ animationDelay: delay }}
             className={`h-full flex-1 origin-bottom animate-bars bg-line ${
-              i % 3 === 0
+              index % 3 === 0
                 ? "group-hover:bg-accent group-focus-within:bg-accent"
                 : ""
             }`}
@@ -60,34 +60,34 @@ function Visualization({ viz }: { viz: Viz }) {
   );
 }
 
-function Card({ p }: { p: Project }) {
+function Card({ project }: { project: Project }) {
   const inner = (
     <>
       <span className="pt-2.5 font-mono text-[11px] tracking-[0.14em] text-dim-3 group-hover:text-accent group-focus-within:text-accent">
-        {p.idx}
+        {project.idx}
       </span>
       <div className="grid min-w-0 grid-cols-1 gap-[clamp(16px,2.5vw,40px)] min-[900px]:grid-cols-[minmax(0,1.6fr)_minmax(0,.7fr)]">
         <div className="min-w-0">
           <div className="flex flex-wrap items-baseline gap-3.5">
             <h3 className="text-project font-bold leading-none tracking-[-0.035em]">
-              {p.title}
+              {project.title}
             </h3>
             <span
               className={`border border-line px-2 py-1 font-mono text-[10px] tracking-[0.12em] ${
-                p.tagAccent ? "text-accent" : "text-dim-2"
+                project.tagAccent ? "text-accent" : "text-dim-2"
               }`}
             >
-              {p.tag}
+              {project.tag}
             </span>
           </div>
           <p className="mt-3.5 max-w-[52ch] text-body leading-[1.5] text-pretty text-dim">
-            {p.desc}
+            {project.desc}
           </p>
           <div className="mt-[18px] flex flex-wrap gap-x-3.5 gap-y-1.5 font-mono text-[11px] text-dim-2">
-            {p.stack.map((tech, i) => (
+            {project.stack.map((tech, index) => (
               <Fragment key={tech}>
                 <span>{tech}</span>
-                {i < p.stack.length - 1 && (
+                {index < project.stack.length - 1 && (
                   <span className="text-line-2">·</span>
                 )}
               </Fragment>
@@ -96,16 +96,16 @@ function Card({ p }: { p: Project }) {
         </div>
 
         <div className="flex min-w-0 flex-col gap-2.5">
-          <Visualization viz={p.viz} />
+          <Visualization viz={project.viz} />
           <div className="flex items-center justify-between gap-3 font-mono text-[10px] tracking-[0.12em] text-dim-3">
-            <span>{p.metaLabel}</span>
-            {p.live ? (
+            <span>{project.metaLabel}</span>
+            {project.live ? (
               <span className="flex items-center gap-1.5 text-accent">
                 <span className="size-[5px] animate-dot rounded-full bg-accent" />
-                {p.status}
+                {project.status}
               </span>
             ) : (
-              <span>{p.status}</span>
+              <span>{project.status}</span>
             )}
           </div>
         </div>
@@ -121,8 +121,8 @@ function Card({ p }: { p: Project }) {
       data-reveal="1"
       className="group border-b border-line transition-colors duration-150 ease-[cubic-bezier(.2,.8,.2,1)] hover:bg-surface focus-within:bg-surface"
     >
-      {p.href ? (
-        <a href={p.href} target="_blank" rel="noopener" className={rowClass}>
+      {project.href ? (
+        <a href={project.href} target="_blank" rel="noopener" className={rowClass}>
           {inner}
           <span className="sr-only">(abre em nova aba)</span>
         </a>
@@ -145,32 +145,32 @@ export function SelectedWork() {
       </div>
 
       <ol className="list-none border-t border-line">
-        {projects.map((p) => (
-          <Card key={p.idx} p={p} />
+        {projects.map((project) => (
+          <Card key={project.idx} project={project} />
         ))}
       </ol>
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] font-mono">
-        {stats.map((s, i) => {
-          const last = i === stats.length - 1;
+        {stats.map((stat, index) => {
+          const last = index === stats.length - 1;
           return (
             <div
-              key={s.label}
+              key={stat.label}
               data-reveal="1"
               className={`px-gutter py-[clamp(24px,3vw,40px)] ${
                 last ? "" : "border-r border-line"
               }`}
             >
               <div
-                {...(s.count ? { "data-count": String(s.value) } : {})}
+                {...(stat.count ? { "data-count": String(stat.value) } : {})}
                 className={`text-stat font-bold tracking-[-0.03em] ${
-                  s.accent ? "text-accent" : "text-fg"
+                  stat.accent ? "text-accent" : "text-fg"
                 }`}
               >
-                {s.value}
+                {stat.value}
               </div>
               <div className="mt-2 text-[10px] tracking-[0.14em] text-dim-3">
-                {s.label}
+                {stat.label}
               </div>
             </div>
           );

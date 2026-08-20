@@ -5,10 +5,10 @@ const [firstName, ...rest] = profile.name.split(" ");
 const lastName = rest.join(" ");
 
 const meta = [
-  { k: "ROLE", v: profile.role, accent: false },
-  { k: "EXPERIENCE", v: profile.years, accent: false },
-  { k: "LOCATION", v: profile.coords, accent: false },
-  { k: "AVAILABILITY", v: profile.availability, accent: true },
+  { label: "ROLE", value: profile.role, accent: false },
+  { label: "EXPERIENCE", value: profile.years, accent: false },
+  { label: "LOCATION", value: profile.coords, accent: false },
+  { label: "AVAILABILITY", value: profile.availability, accent: true },
 ];
 
 export function Hero() {
@@ -34,24 +34,24 @@ export function Hero() {
         </div>
 
         <dl className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] border-t border-line font-mono">
-          {meta.map((m, i) => {
-            const last = i === meta.length - 1;
+          {meta.map((item, index) => {
+            const last = index === meta.length - 1;
             return (
               <div
-                key={m.k}
+                key={item.label}
                 className={[
                   "pt-4 pb-[18px]",
-                  i === 0 ? "pr-[18px]" : last ? "pl-[18px]" : "px-[18px]",
+                  index === 0 ? "pr-[18px]" : last ? "pl-[18px]" : "px-[18px]",
                   last ? "" : "border-r border-line",
                 ].join(" ")}
               >
                 <dt className="text-[10px] tracking-[0.14em] text-dim-3">
-                  {m.k}
+                  {item.label}
                 </dt>
                 <dd
-                  className={`mt-2 text-[12.5px] ${m.accent ? "text-accent" : "text-fg"}`}
+                  className={`mt-2 text-[12.5px] ${item.accent ? "text-accent" : "text-fg"}`}
                 >
-                  {m.v}
+                  {item.value}
                 </dd>
               </div>
             );

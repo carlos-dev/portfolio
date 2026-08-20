@@ -18,12 +18,12 @@ export function About() {
         <p className="text-lead-lg font-medium leading-[1.32] tracking-[-0.02em] text-pretty text-fg">
           {about[0]}
         </p>
-        {about.slice(1).map((para, i) => (
+        {about.slice(1).map((paragraph, index) => (
           <p
-            key={i}
+            key={index}
             className="mt-[clamp(20px,2.5vw,28px)] text-body-lg leading-[1.6] text-pretty text-dim"
           >
-            {para}
+            {paragraph}
           </p>
         ))}
       </div>

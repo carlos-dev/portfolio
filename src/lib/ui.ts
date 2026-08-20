@@ -1,6 +1,6 @@
 // Espelho em hex dos custom properties do globals.css, porque canvas e nós
 // criados via JS não leem var(). Mudou cor lá, mude aqui junto.
-export const C = {
+export const colors = {
   bg: "#0a0a0b",
   surface: "#131316",
   surface2: "#1a1a1e",

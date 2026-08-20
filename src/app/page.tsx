@@ -25,7 +25,7 @@ const personSchema = {
   },
   sameAs: [profile.githubUrl, profile.productUrl],
   knowsAbout: [
-    ...new Set(projects.flatMap((p) => p.stack)),
+    ...new Set(projects.flatMap((project) => project.stack)),
   ],
 };
 

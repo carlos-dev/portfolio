@@ -11,12 +11,12 @@ export function SiteHeader() {
   // para sempre. O header não tem outro estado, então nada mais o re-renderiza
   // e o texto escrito aqui não corre risco de ser revertido pelo React.
   useEffect(() => {
-    const pad = (n: number) => String(n).padStart(2, "0");
+    const pad = (value: number) => String(value).padStart(2, "0");
     const tick = () => {
       const node = clockRef.current;
       if (!node) return;
-      const d = new Date();
-      node.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+      const now = new Date();
+      node.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
     };
     tick();
     const id = setInterval(tick, 1000);

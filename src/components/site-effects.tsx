@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { C } from "@/lib/ui";
+import { colors } from "@/lib/ui";
 
 /**
  * Não renderiza nada. Toca as animações disparadas por scroll sobre as seções
@@ -24,12 +24,12 @@ export function SiteEffects() {
     // card do radar-congresso: matrix de ingest de 26 células, montada no cliente.
     document.querySelectorAll<HTMLElement>("[data-matrix]").forEach((host) => {
       if (host.childElementCount) return; // guard against double-run
-      for (let i = 0; i < 26; i++) {
+      for (let index = 0; index < 26; index++) {
         const cell = document.createElement("i");
-        const hot = i % 7 === 3;
-        cell.style.cssText = `display:block;height:${10 + (i % 4) * 8}px;background:${hot ? C.accent : C.border};opacity:${hot ? ".85" : "1"};align-self:end`;
+        const hot = index % 7 === 3;
+        cell.style.cssText = `display:block;height:${10 + (index % 4) * 8}px;background:${hot ? colors.accent : colors.border};opacity:${hot ? ".85" : "1"};align-self:end`;
         if (!reduced)
-          cell.style.animation = `bars 2.6s cubic-bezier(.4,0,.2,1) ${-i * 0.09}s infinite`;
+          cell.style.animation = `bars 2.6s cubic-bezier(.4,0,.2,1) ${-index * 0.09}s infinite`;
         cell.style.transformOrigin = "bottom";
         host.appendChild(cell);
       }
@@ -51,43 +51,43 @@ export function SiteEffects() {
       const dur = COUNT_MS;
       const start = performance.now();
       const step = (now: number) => {
-        const t = Math.min(1, (now - start) / dur);
-        const eased = 1 - Math.pow(1 - t, 3);
+        const progress = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - progress, 3);
         el.textContent = String(Math.round(target * eased)).padStart(
           String(target).length,
           "0",
         );
-        if (t < 1) requestAnimationFrame(step);
+        if (progress < 1) requestAnimationFrame(step);
         else el.textContent = String(target).padStart(2, "0");
       };
       requestAnimationFrame(step);
     };
 
-    const io = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          const el = e.target as HTMLElement;
-          io.unobserve(el);
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          observer.unobserve(el);
           if (el.hasAttribute("data-count")) return countUp(el);
           el.style.opacity = "1";
           el.style.animation = `compile ${REVEAL_MS}ms cubic-bezier(.16,1,.3,1) forwards`;
-          el.querySelectorAll<SVGPathElement>("[data-spark]").forEach((p) => {
-            const len = p.getTotalLength();
-            p.style.strokeDasharray = String(len);
-            p.style.strokeDashoffset = String(len);
-            p.style.transition = `stroke-dashoffset ${SPARK_MS}ms cubic-bezier(.16,1,.3,1)`;
-            requestAnimationFrame(() => (p.style.strokeDashoffset = "0"));
+          el.querySelectorAll<SVGPathElement>("[data-spark]").forEach((path) => {
+            const len = path.getTotalLength();
+            path.style.strokeDasharray = String(len);
+            path.style.strokeDashoffset = String(len);
+            path.style.transition = `stroke-dashoffset ${SPARK_MS}ms cubic-bezier(.16,1,.3,1)`;
+            requestAnimationFrame(() => (path.style.strokeDashoffset = "0"));
           });
         });
       },
       { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
     );
 
-    reveals.forEach((el) => io.observe(el));
-    counts.forEach((el) => io.observe(el));
+    reveals.forEach((el) => observer.observe(el));
+    counts.forEach((el) => observer.observe(el));
 
-    return () => io.disconnect();
+    return () => observer.disconnect();
   }, []);
 
   return null;

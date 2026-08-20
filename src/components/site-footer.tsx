@@ -31,39 +31,44 @@ export function SiteFooter({ stamp }: { stamp: string }) {
     const rows = 7;
     const seed = Array.from(
       { length: cols * rows },
-      (_, i) => (Math.sin(i * 12.9898) * 43758.5453) % 1,
+      (_, index) => (Math.sin(index * 12.9898) * 43758.5453) % 1,
     );
 
-    let w = 0;
-    let h = 0;
+    let width = 0;
+    let height = 0;
 
     const resize = () => {
       const dpr = Math.min(2, window.devicePixelRatio || 1);
-      w = canvas.clientWidth;
-      h = canvas.clientHeight;
-      if (!w || !h) return false;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
+      if (!width || !height) return false;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
       // setTransform, não scale: não acumula a cada chamada.
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       return true;
     };
 
     const draw = (phase: number) => {
-      if (!w || !h) return;
-      ctx.clearRect(0, 0, w, h);
-      const size = Math.max(6, Math.min(13, w / (cols * 1.5)));
+      if (!width || !height) return;
+      ctx.clearRect(0, 0, width, height);
+      const size = Math.max(6, Math.min(13, width / (cols * 1.5)));
       const gap = 3;
-      const ox = w - cols * (size + gap) - 16;
-      const oy = h - rows * (size + gap) - 16;
-      for (let c = 0; c < cols; c++) {
-        for (let r = 0; r < rows; r++) {
-          const v = Math.abs(seed[c * rows + r]);
-          if (v < 0.42) continue;
-          const breathe = 0.5 + 0.5 * Math.sin(phase + c * 0.22 + r * 0.5);
-          const a = (v - 0.42) * 0.34 * (0.45 + 0.55 * breathe);
-          ctx.fillStyle = `rgba(163,230,53,${a.toFixed(3)})`;
-          ctx.fillRect(ox + c * (size + gap), oy + r * (size + gap), size, size);
+      const originX = width - cols * (size + gap) - 16;
+      const originY = height - rows * (size + gap) - 16;
+      for (let col = 0; col < cols; col++) {
+        for (let row = 0; row < rows; row++) {
+          const noise = Math.abs(seed[col * rows + row]);
+          if (noise < 0.42) continue;
+          const breathe = 0.5 + 0.5 * Math.sin(phase + col * 0.22 + row * 0.5);
+          const alpha = (noise - 0.42) * 0.34 * (0.45 + 0.55 * breathe);
+          ctx.fillStyle = `rgba(163,230,53,${alpha.toFixed(3)})`;
+          ctx.fillRect(
+            originX + col * (size + gap),
+            originY + row * (size + gap),
+            size,
+            size,
+          );
         }
       }
     };
@@ -84,22 +89,24 @@ export function SiteFooter({ stamp }: { stamp: string }) {
     const STEP_MS = 110;
     let visible = false;
     let last = 0;
-    let frame = 0;
+    let frameId = 0;
 
     const tick = (now: number) => {
-      frame = requestAnimationFrame(tick);
+      frameId = requestAnimationFrame(tick);
       if (!visible || now - last < STEP_MS) return;
       last = now;
       draw((phaseRef.current += 0.18));
     };
 
-    const io = new IntersectionObserver((e) => (visible = e[0].isIntersecting));
-    io.observe(canvas);
-    frame = requestAnimationFrame(tick);
+    const observer = new IntersectionObserver(
+      (entries) => (visible = entries[0].isIntersecting),
+    );
+    observer.observe(canvas);
+    frameId = requestAnimationFrame(tick);
 
     return () => {
-      cancelAnimationFrame(frame);
-      io.disconnect();
+      cancelAnimationFrame(frameId);
+      observer.disconnect();
       window.removeEventListener("resize", onResize);
     };
   }, []);
@@ -140,18 +147,18 @@ export function SiteFooter({ stamp }: { stamp: string }) {
         </p>
 
         <ul className="grid list-none grid-cols-[repeat(auto-fit,minmax(280px,1fr))] border-t border-line font-mono">
-          {links.map((l) => (
-            <li key={l.flag} className="border-b border-line">
+          {links.map((link) => (
+            <li key={link.flag} className="border-b border-line">
               <a
-                href={l.href}
-                {...(l.external ? { target: "_blank", rel: "noopener" } : {})}
+                href={link.href}
+                {...(link.external ? { target: "_blank", rel: "noopener" } : {})}
                 className="flex items-center justify-between gap-4 py-[22px] pr-5 text-link transition-colors duration-[140ms]"
               >
                 <span>
-                  <span className="text-accent">$</span> {l.cmd} {l.flag}{" "}
-                  <span className="text-dim-2">{l.value}</span>
+                  <span className="text-accent">$</span> {link.cmd} {link.flag}{" "}
+                  <span className="text-dim-2">{link.value}</span>
                 </span>
-                {l.external && <span className="sr-only">(abre em nova aba)</span>}
+                {link.external && <span className="sr-only">(abre em nova aba)</span>}
                 <span aria-hidden="true" className="text-line-2">
                   ↗
                 </span>

@@ -82,6 +82,19 @@ Regras que já foram quebradas uma vez e que nenhum lint pega:
 Antes de dar por pronta uma mudança de layout, rode uma auditoria Lighthouse de
 acessibilidade contra o build de produção. O baseline é 100.
 
+## Nomeação
+
+IMPORTANT: nada de identificador de uma letra — vale para prop, parâmetro de
+callback, variável local, contador de laço, chave de objeto e constante
+exportada. A única exceção é `_`, marcador de parâmetro não usado. Prop e
+constante exportada são os piores casos, porque são superfície pública:
+`<Card p={project} />` e `C.accent` obrigam o leitor a abrir outro arquivo.
+
+Identificadores em inglês; comentários e texto de UI em pt-BR.
+
+Nenhum lint pega isso. Detalhe, tabela de substituições e o comando de varredura
+estão na skill `naming`, em `.agents/skills/naming/`.
+
 ## Server action
 
 `src/app/actions/contact.ts` é a única coisa que roda em runtime. Valida tudo no

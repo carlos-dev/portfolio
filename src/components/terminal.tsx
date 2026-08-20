@@ -45,21 +45,21 @@ export function Terminal() {
       }
       setLines([]);
       setTyping(true);
-      for (let i = 0; i < SCRIPT.length; i++) {
+      for (let index = 0; index < SCRIPT.length; index++) {
         if (cancelled) return;
-        const line = SCRIPT[i];
-        setLines((s) => s.concat([{ ...line, text: "" }]));
-        for (let c = 1; c <= line.text.length; c++) {
+        const line = SCRIPT[index];
+        setLines((prev) => prev.concat([{ ...line, text: "" }]));
+        for (let chars = 1; chars <= line.text.length; chars++) {
           await wait(TYPING_SPEED + Math.random() * TYPING_SPEED * 0.6);
           if (cancelled) return;
-          setLines((s) => {
-            const next = s.slice();
-            next[i] = { ...line, text: line.text.slice(0, c) };
+          setLines((prev) => {
+            const next = prev.slice();
+            next[index] = { ...line, text: line.text.slice(0, chars) };
             return next;
           });
           scrollToBottom();
         }
-        await wait(i === 0 ? 340 : 160);
+        await wait(index === 0 ? 340 : 160);
       }
       if (!cancelled) setTyping(false);
     };
@@ -74,7 +74,7 @@ export function Terminal() {
 
   const push = useCallback(
     (newLines: TermLine[]) => {
-      setLines((s) => s.concat(newLines));
+      setLines((prev) => prev.concat(newLines));
       scrollToBottom();
     },
     [scrollToBottom],
@@ -106,8 +106,8 @@ export function Terminal() {
         {/* barra de título */}
         <div className="flex shrink-0 items-center justify-between gap-3 border-b border-line bg-surface-2 px-[14px] py-2.5 font-mono text-[10.5px] tracking-[0.1em] text-dim-2">
           <span className="flex items-center gap-1.5">
-            {[0, 1, 2].map((i) => (
-              <span key={i} className="size-[7px] border border-line-2" />
+            {[0, 1, 2].map((index) => (
+              <span key={index} className="size-[7px] border border-line-2" />
             ))}
           </span>
           <span>intro.sh — bash — 80×24</span>
@@ -122,9 +122,9 @@ export function Terminal() {
           aria-label="Saída do terminal"
           className="flex-1 overflow-y-auto px-[14px] py-4 font-mono text-term leading-[1.75]"
         >
-          {lines.map((line, i) => (
+          {lines.map((line, index) => (
             <div
-              key={i}
+              key={index}
               className="flex gap-2 whitespace-pre-wrap [overflow-wrap:anywhere]"
             >
               <span className="shrink-0 text-line-2">{line.prefix}</span>
@@ -150,12 +150,12 @@ export function Terminal() {
             aria-label="Digite um comando. Tente help."
             placeholder="help"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key !== "Enter") return;
-              const v = input;
+            onChange={(event) => setInput(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key !== "Enter") return;
+              const value = input;
               setInput("");
-              run(v);
+              run(value);
             }}
             className="min-w-0 flex-1 border-0 bg-transparent font-mono text-term text-fg caret-accent outline-none"
           />

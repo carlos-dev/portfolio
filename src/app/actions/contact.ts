@@ -9,7 +9,7 @@ export type ContactState = {
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const clip = (s: string, n: number) => s.trim().slice(0, n);
+const clip = (value: string, max: number) => value.trim().slice(0, max);
 
 export async function sendContact(
   _prev: ContactState,

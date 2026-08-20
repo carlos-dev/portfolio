@@ -18,8 +18,8 @@ export function ContactForm() {
       {/* barra de título */}
       <div className="flex items-center justify-between gap-3 border-b border-line bg-surface-2 px-[14px] py-2.5 font-mono text-[10.5px] tracking-[0.1em] text-dim-2">
         <span className="flex items-center gap-1.5">
-          {[0, 1, 2].map((i) => (
-            <span key={i} className="size-[7px] border border-line-2" />
+          {[0, 1, 2].map((index) => (
+            <span key={index} className="size-[7px] border border-line-2" />
           ))}
         </span>
         <span>contact.sh — compose</span>
