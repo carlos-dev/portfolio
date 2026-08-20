@@ -315,6 +315,8 @@ export const scripts: Script[] = [
   { name: "debug", text: "ler o erro inteiro antes de opinar" },
   { name: "prompt", text: "contrato, não conversa: schema na saída" },
   { name: "eval", text: "medir antes de trocar de modelo" },
+  { name: "agent", text: "ferramenta estreita, log de tudo" },
+  { name: "rag", text: "recuperar é ranquear; embedding não salva busca ruim" },
 ];
 
 export const about = [
