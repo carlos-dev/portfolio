@@ -50,15 +50,16 @@ Identificadores em **inglês**; comentários e texto de UI em **pt-BR**. Não
 misture: `paragrafo` no meio de `dep`/`project`/`index` destoa tanto quanto uma
 letra solta.
 
-## Como varrer
+## Quem cobra a regra
 
-```bash
-grep -rnE "\(\(?[a-z]\)? =>|\(\([a-z], [a-z]\)|\{ [a-z] \}:|\(\{ [a-z],|(const|let) [A-Za-z] =|for \(let [a-z] =|\bkey=\{[a-z]\}" src/ --include="*.ts*"
-```
+O ESLint. `eslint.config.mjs` liga `id-length` com `min: 2`,
+`exceptions: ["_"]` e `properties: "always"` — então `npm run lint` reprova.
+Não depende de ninguém lembrar de rodar grep.
 
-Saída vazia = limpo. O ESLint não pega isso: não existe regra padrão para
-comprimento mínimo de identificador nas configs deste projeto, então a varredura
-é manual.
+`properties: "always"` é o que faz a regra alcançar chave de objeto literal, e
+isso importa: numa varredura por grep, `d: "M0 40 L20 39 …"` dentro de um dado
+passou batido — foi o `id-length` que pegou. Padrão de grep enxerga declaração e
+parâmetro; chave de dado escapa fácil.
 
 ## Ao renomear em lote
 

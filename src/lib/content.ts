@@ -109,7 +109,7 @@ export const SECRET_OUTPUT: TermLine[] = [
 
 export type Viz =
   | { kind: "bars" }
-  | { kind: "spark"; d: string; cy: number }
+  | { kind: "spark"; path: string; cy: number }
   | { kind: "matrix" };
 
 export type Project = {
@@ -148,7 +148,7 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Supabase"],
     viz: {
       kind: "spark",
-      d: "M0 40 L20 39 L40 36 L60 37 L80 31 L100 26 L120 27 L140 20 L160 15 L180 16 L200 9 L220 5 L240 3",
+      path: "M0 40 L20 39 L40 36 L60 37 L80 31 L100 26 L120 27 L140 20 L160 15 L180 16 L200 9 L220 5 L240 3",
       cy: 3,
     },
     metaLabel: "// dias sem fumar, por usuário",
@@ -173,7 +173,7 @@ export const projects: Project[] = [
     stack: ["Python", "TypeScript", "Docker"],
     viz: {
       kind: "spark",
-      d: "M0 24 L20 30 L40 18 L60 22 L80 12 L100 20 L120 8 L140 16 L160 6 L180 14 L200 10 L220 18 L240 11",
+      path: "M0 24 L20 30 L40 18 L60 22 L80 12 L100 20 L120 8 L140 16 L160 6 L180 14 L200 10 L220 18 L240 11",
       cy: 11,
     },
     metaLabel: "// série de preços, normalizada",

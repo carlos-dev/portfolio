@@ -35,7 +35,7 @@ function Visualization({ viz }: { viz: Viz }) {
       >
         <path
           data-spark="1"
-          d={viz.d}
+          d={viz.path}
           fill="none"
           strokeWidth={1.25}
           className="stroke-line-2 group-hover:stroke-accent group-focus-within:stroke-accent"

@@ -92,8 +92,9 @@ constante exportada são os piores casos, porque são superfície pública:
 
 Identificadores em inglês; comentários e texto de UI em pt-BR.
 
-Nenhum lint pega isso. Detalhe, tabela de substituições e o comando de varredura
-estão na skill `naming`, em `.agents/skills/naming/`.
+`npm run lint` reprova: `id-length` está ligado no `eslint.config.mjs`. A tabela
+de substituições e a armadilha da renomeação em lote estão na skill `naming`,
+em `.agents/skills/naming/`.
 
 ## Server action
 
