@@ -307,16 +307,26 @@ export const stats: Stat[] = [
   { value: 1, label: "PRODUTO PRÓPRIO", count: false },
 ];
 
-// O galho `scripts` da árvore não guarda comando, guarda método.
-export type Script = { name: string; text: string };
+// Método, não comando: o galho `scripts` da árvore é uma piada da metáfora do
+// package.json. `group` diz em que galho a linha aparece — as de IA ficam junto
+// das ferramentas de IA, senão quem procura o assunto acha metade do sinal.
+export type Practice = { name: string; text: string; group: "ai" | "scripts" };
 
-export const scripts: Script[] = [
-  { name: "build", text: "ship pequeno, cedo, com log" },
-  { name: "debug", text: "ler o erro inteiro antes de opinar" },
-  { name: "prompt", text: "contrato, não conversa: schema na saída" },
-  { name: "eval", text: "medir antes de trocar de modelo" },
-  { name: "agent", text: "ferramenta estreita, log de tudo" },
-  { name: "rag", text: "recuperar é ranquear; embedding não salva busca ruim" },
+export const practices: Practice[] = [
+  { name: "build", text: "ship pequeno, cedo, com log", group: "scripts" },
+  { name: "debug", text: "ler o erro inteiro antes de opinar", group: "scripts" },
+  {
+    name: "prompt",
+    text: "contrato, não conversa: schema na saída",
+    group: "ai",
+  },
+  { name: "agent", text: "ferramenta estreita, log de tudo", group: "ai" },
+  {
+    name: "rag",
+    text: "recuperar é ranquear; embedding não salva busca ruim",
+    group: "ai",
+  },
+  { name: "eval", text: "medir antes de trocar de modelo", group: "ai" },
 ];
 
 export const about = [
