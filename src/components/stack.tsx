@@ -140,7 +140,7 @@ export function Stack() {
           <p className="mt-3.5 min-h-[4.6em] max-w-[44ch] text-inspector-body leading-[1.55] text-pretty text-dim">
             {current
               ? current.desc
-              : "Passe o mouse (ou tab) por uma dependência para ver como ela é usada de verdade — sem barrinha de porcentagem."}
+              : "Passe o mouse (ou tab) por uma dependência para ver o que eu realmente faço com ela — sem barrinha de porcentagem."}
           </p>
           <div className="mt-6 border-t border-line pt-[18px] font-mono text-[11px] text-dim-2">
             {/* Método não tem "onde roda" — só ferramenta tem. */}

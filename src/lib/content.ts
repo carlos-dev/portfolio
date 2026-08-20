@@ -206,7 +206,7 @@ export const deps: Dep[] = [
     name: "typescript",
     version: "^5.6",
     group: "dependencies",
-    desc: "Contrato antes do código. Se o tipo não fecha, o desenho está errado — não é o compilador que está sendo chato.",
+    desc: "Escrevo o tipo antes da função. Se ele não fecha, o desenho está errado e o compilador só foi o primeiro a perceber. Aqui o strict fica ligado e o build roda tsc junto: tipo torto não vira deploy.",
     used: "cutcast · Fumasil · claude-investimentos",
   },
   {
@@ -214,7 +214,7 @@ export const deps: Dep[] = [
     name: "next",
     version: "^15.3",
     group: "dependencies",
-    desc: "App router, server actions e cache como parte da arquitetura, não como detalhe de deploy.",
+    desc: "App Router e server action entram no desenho, não no fim como detalhe de deploy. Neste site isso quer dizer que todas as rotas saem estáticas e só o formulário de contato existe em runtime.",
     used: "cutcast · radar-congresso",
   },
   {
@@ -222,7 +222,7 @@ export const deps: Dep[] = [
     name: "react",
     version: "^19.0",
     group: "dependencies",
-    desc: "Estado explícito, componente burro na borda. A UI é uma função do dado, e o dado vem de um lugar só.",
+    desc: "UI é função do dado. Quando o estado mora em três lugares você não tem bug de render, tem bug de arquitetura fantasiado de bug de render. Aqui todo texto vem de um arquivo só.",
     used: "cutcast · Fumasil · radar-congresso",
   },
   {
@@ -230,7 +230,7 @@ export const deps: Dep[] = [
     name: "node",
     version: "^22 lts",
     group: "dependencies",
-    desc: "Onde vive o trabalho sujo: filas, jobs de vídeo, integrações que falham e precisam tentar de novo.",
+    desc: "Onde vive o trabalho sujo: fila, job que demora, integração que devolve 200 com o corpo errado. Nada disso é difícil. Difícil é escrever já sabendo que vai falhar na metade e vai precisar continuar de onde parou.",
     used: "cutcast · Fumasil",
   },
   {
@@ -238,7 +238,7 @@ export const deps: Dep[] = [
     name: "tailwindcss",
     version: "^4.0",
     group: "dependencies",
-    desc: "Sistema de restrição, não atalho. Escala fixa evita a decisão de 3px que ninguém revisa.",
+    desc: "Restrição, não atalho. Escala fixa mata a decisão de 3px que ninguém revisa e todo mundo repete diferente. Cor, tipografia e animação deste site saem de 31 tokens no @theme.",
     used: "cutcast · Fumasil · radar-congresso",
   },
   {
@@ -246,7 +246,7 @@ export const deps: Dep[] = [
     name: "python",
     version: "^3.12",
     group: "dependencies",
-    desc: "Ingest, parsing e análise. Onde o dado é bagunçado, o script vence o serviço.",
+    desc: "Para dado bagunçado, script vence serviço. Ingest, parsing, análise que roda três vezes e vai fora — nessa faixa, montar arquitetura é procrastinação com nome bonito.",
     used: "radar-congresso · claude-investimentos",
   },
   {
@@ -254,7 +254,7 @@ export const deps: Dep[] = [
     name: "n8n",
     version: "^1.7",
     group: "ai",
-    desc: "Workflow que roda sem ninguém olhando. O que seria cron com retry vira desenho, e o desenho vira a documentação.",
+    desc: "Orquestração que dá para enxergar. O ganho não é escrever menos código: é o retry, o passo que quebrou e a ordem das coisas ficarem visíveis para quem não escreveu o pipeline.",
     used: "cutcast",
   },
   {
@@ -262,7 +262,7 @@ export const deps: Dep[] = [
     name: "mcp",
     version: "latest",
     group: "ai",
-    desc: "Protocolo para o modelo falar com ferramenta de verdade. Tool estreita, log de tudo — agente sem isso é chute com sotaque.",
+    desc: "Dar ferramenta de verdade para o modelo, com contrato e limite. A parte difícil não é expor a função — é decidir o que ele não pode chamar.",
     used: "ferramental próprio",
   },
   {
@@ -270,39 +270,39 @@ export const deps: Dep[] = [
     name: "langfuse",
     version: "^3.0",
     group: "ai",
-    desc: "Trace, custo por chamada e avaliação. Sem isso, trocar de modelo é fé; com isso, é medição.",
+    desc: "Trace, custo por chamada, avaliação. Sem isso você não sabe se melhorou ou se teve sorte, e não vai descobrir por que piorou quando o provedor atualizar o modelo por baixo de você.",
     used: "ferramental próprio",
   },
   {
     key: "prompt",
     name: "prompt",
     group: "ai",
-    desc: "Contrato, não conversa. Se a saída não tem schema, aquilo não é integração — é sorte com um passo manual depois.",
+    desc: "Contrato, não conversa. Peço saída com schema, valido, e trato o que voltou como input não confiável. Prompt bonito que devolve texto livre é passo manual disfarçado de automação.",
   },
   {
     key: "agent",
     name: "agent",
     group: "ai",
-    desc: "Ferramenta estreita e log de tudo. Agente genérico erra bonito; agente com três tools e trilha de execução dá para depurar.",
+    desc: "Ferramenta estreita e log de tudo. Agente genérico erra bonito e você não consegue refazer o caminho; com três tools e trilha de execução, dá para abrir e ver onde foi.",
   },
   {
     key: "rag",
     name: "rag",
     group: "ai",
-    desc: "Recuperar é ranquear. Embedding não salva busca ruim: se o trecho certo não está no top-k, o modelo inventa com confiança.",
+    desc: "Recuperar é ranquear. Quase todo RAG ruim é busca ruim: se o trecho certo não entra no top-k, o modelo preenche o vazio com confiança e a culpa sobra para ele.",
   },
   {
     key: "eval",
     name: "eval",
     group: "ai",
-    desc: "Medir antes de trocar de modelo. Sem conjunto de avaliação, \"melhorou\" é impressão — e impressão não sobrevive ao próximo release do provedor.",
+    desc: "Medir antes de trocar. Sem conjunto de avaliação, \"melhorou\" é impressão — e impressão não sobrevive ao próximo release do provedor.",
   },
   {
     key: "postgresql",
     name: "postgresql",
     version: "^16",
     group: "infrastructure",
-    desc: "A fonte da verdade. Constraint no banco é documentação que o runtime respeita.",
+    desc: "A fonte da verdade, e levo ao pé da letra: constraint, check e foreign key no banco. Regra que só existe na aplicação é regra que a próxima aplicação vai ignorar.",
     used: "cutcast · radar-congresso · claude-investimentos",
   },
   {
@@ -310,7 +310,7 @@ export const deps: Dep[] = [
     name: "supabase",
     version: "latest",
     group: "infrastructure",
-    desc: "Auth, storage e realtime resolvidos para poder gastar o tempo no produto.",
+    desc: "Auth, storage e realtime resolvidos para o tempo ir para o produto. Também sei onde encosta: RLS mal escrita é buraco de segurança com cara de configuração pronta.",
     used: "cutcast · Fumasil",
   },
   {
@@ -318,7 +318,7 @@ export const deps: Dep[] = [
     name: "docker",
     version: "latest",
     group: "infrastructure",
-    desc: "Mesma caixa na minha máquina e em produção. Encerra a discussão antes dela começar.",
+    desc: "Mesma caixa na minha máquina e em produção. Não é elegância — é encerrar a conversa \"aqui funciona\" antes que ela custe uma tarde.",
     used: "claude-investimentos · radar-congresso",
   },
 ];
