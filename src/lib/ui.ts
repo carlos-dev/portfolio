@@ -1,5 +1,5 @@
-// Shared design tokens. Mirrors the CSS custom properties in globals.css so
-// the imperative bits (canvas, inline terminal colors) stay in sync.
+// Espelho em hex dos custom properties do globals.css, porque canvas e nós
+// criados via JS não leem var(). Mudou cor lá, mude aqui junto.
 export const C = {
   bg: "#0a0a0b",
   surface: "#131316",

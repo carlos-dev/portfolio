@@ -74,6 +74,10 @@ Regras que já foram quebradas uma vez e que nenhum lint pega:
 - Links externos levam `<span className="sr-only">(abre em nova aba)</span>`.
 - O terminal só liga `aria-live` depois do boot: durante a digitação o texto
   muda a cada caractere e um leitor de tela reanunciaria a linha inteira.
+- IMPORTANT: nunca defina um componente dentro de outro. Definido lá dentro,
+  ele vira um tipo novo a cada render e o React remonta a subárvore — em
+  `stack.tsx` isso destruía o botão que acabara de receber foco e derrubava o
+  foco no `<body>`, quebrando a navegação por teclado da árvore. Passe props.
 
 Antes de dar por pronta uma mudança de layout, rode uma auditoria Lighthouse de
 acessibilidade contra o build de produção. O baseline é 100.

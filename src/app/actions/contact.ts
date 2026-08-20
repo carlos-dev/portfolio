@@ -15,7 +15,7 @@ export async function sendContact(
   _prev: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
-  // Honeypot: real users never fill this hidden field.
+  // Honeypot: usuário de verdade nunca preenche este campo escondido.
   if (typeof formData.get("company") === "string" && formData.get("company")) {
     return { status: "success", message: "message delivered ✓" };
   }

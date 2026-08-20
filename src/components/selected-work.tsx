@@ -50,7 +50,7 @@ function Visualization({ viz }: { viz: Viz }) {
     );
   }
 
-  // matrix — cells injected client-side by <SiteEffects>
+  // matrix — as células são injetadas no cliente por <SiteEffects>
   return (
     <div
       data-matrix="1"

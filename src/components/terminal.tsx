@@ -25,9 +25,9 @@ export function Terminal() {
     if (box) requestAnimationFrame(() => (box.scrollTop = box.scrollHeight));
   }, []);
 
-  // Boot sequence: type each line character by character. The effect only
-  // wires up the timer-driven animation (an external system); all state
-  // transitions live inside the async `boot` routine it starts.
+  // Boot: digita cada linha caractere por caractere. O efeito só liga a
+  // animação movida a timer (um sistema externo); todas as transições de
+  // estado vivem dentro da rotina async `boot` que ele dispara.
   useEffect(() => {
     let cancelled = false;
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -103,7 +103,7 @@ export function Terminal() {
         onClick={() => inputRef.current?.focus()}
         className="flex min-h-[clamp(340px,44vh,460px)] cursor-text flex-col border border-line bg-surface"
       >
-        {/* title bar */}
+        {/* barra de título */}
         <div className="flex shrink-0 items-center justify-between gap-3 border-b border-line bg-surface-2 px-[14px] py-2.5 font-mono text-[10.5px] tracking-[0.1em] text-dim-2">
           <span className="flex items-center gap-1.5">
             {[0, 1, 2].map((i) => (

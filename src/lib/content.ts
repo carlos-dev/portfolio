@@ -1,8 +1,8 @@
 // ---------------------------------------------------------------------------
-// Single source of truth for the portfolio copy. Edit here to update the site.
+// Fonte única de verdade do conteúdo. Edite aqui para atualizar o site.
 // ---------------------------------------------------------------------------
 
-// Terminal line colors are data, so they reference the theme via CSS vars.
+// A cor de cada linha do terminal é dado, então referencia o tema via CSS var.
 const col = {
   fg: "var(--color-fg)",
   dim: "var(--color-dim)",
@@ -30,7 +30,7 @@ export const profile = {
 
 export type TermLine = { prefix: string; text: string; color: string };
 
-// The boot sequence that types itself out on load.
+// A sequência de boot, que se digita sozinha no load.
 export const SCRIPT: TermLine[] = [
   { prefix: "$", text: "./intro.sh", color: col.fg },
   { prefix: ">", text: "booting carlosandre.dev...", color: col.dim2 },
@@ -59,7 +59,7 @@ export const SECRET_COMMAND = "sudo hire-me";
 const out = (text: string): TermLine => ({ prefix: " ", text, color: col.dim });
 const hi = (text: string): TermLine => ({ prefix: " ", text, color: col.accent });
 
-// Interactive command outputs. `run()` in the terminal maps input to these.
+// Saída dos comandos interativos. O `run()` do terminal mapeia entrada para cá.
 export const COMMANDS: Record<string, TermLine[]> = {
   help: [
     out("comandos disponíveis:"),

@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design tokens. Everything the components reference lives here, so the JSX
-   stays readable (bg-bg, text-dim, text-project, animate-dot, …).
+   Tokens de design. Tudo que os componentes referenciam mora aqui, para o
+   JSX ficar legível (bg-bg, text-dim, text-project, animate-dot, …).
 --------------------------------------------------------------------------- */
 @theme {
-  /* palette — off-black surfaces + a single lime accent */
+  /* paleta — superfícies quase pretas + um único acento lime */
   --color-bg: #0a0a0b;
   --color-surface: #131316;
   --color-surface-2: #1a1a1e;
@@ -18,7 +18,7 @@
   --color-dim-3: #8d8d96;
   --color-accent: #a3e635;
 
-  /* fluid type scale (clamp) — semantic names, used as text-* utilities */
+  /* escala tipográfica fluida (clamp) — nomes semânticos, viram utilities text-* */
   --text-display: clamp(3.1rem, 8.6vw, 9rem);
   --text-title: clamp(2.2rem, 6.4vw, 5.4rem);
   --text-project: clamp(1.9rem, 4vw, 3.4rem);
@@ -33,7 +33,7 @@
   --text-tree: clamp(12px, 1.05vw, 13.5px);
   --text-link: clamp(12px, 1.1vw, 13.5px);
 
-  /* animations */
+  /* animações */
   --animate-blink: blink 1s steps(1) infinite;
   --animate-glitch: glitch 1.8s steps(1) 1;
   --animate-dot: dotpulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
@@ -41,16 +41,16 @@
   --animate-bars: bars 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-/* Fonts come from next/font as runtime CSS vars (--font-inter / --font-jetbrains),
-   set on <body>. `inline` makes Tailwind reference them directly in the
-   generated font-sans / font-mono utilities instead of trying to resolve them
-   at build time (where they don't exist yet). */
+/* As fontes vêm do next/font como CSS vars de runtime (--font-inter /
+   --font-jetbrains), setadas no <body>. O `inline` faz o Tailwind referenciá-las
+   direto nas utilities font-sans / font-mono geradas, em vez de tentar resolver
+   no build — onde elas ainda não existem. */
 @theme inline {
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
-/* Horizontal page gutter, reused by every section. */
+/* Gutter horizontal da página, reusado por todas as seções. */
 @utility px-gutter {
   padding-inline: clamp(1rem, 4vw, 3rem);
 }

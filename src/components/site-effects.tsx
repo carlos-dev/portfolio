@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import { C } from "@/lib/ui";
 
 /**
- * Renders nothing. Drives the scroll-triggered animations over the statically
- * rendered sections: the "compile" reveal, the count-up stats, the ingest
- * matrix cells, and the sparkline draw-in. Ported from the design's support.js.
+ * Não renderiza nada. Toca as animações disparadas por scroll sobre as seções
+ * renderizadas estaticamente: o reveal "compile", a contagem das stats, as
+ * células da matrix de ingest e o desenho das sparklines.
  */
 export function SiteEffects() {
   useEffect(() => {
@@ -14,7 +14,7 @@ export function SiteEffects() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    // radar-congresso card: a 26-cell ingest matrix, built client-side.
+    // card do radar-congresso: matrix de ingest de 26 células, montada no cliente.
     document.querySelectorAll<HTMLElement>("[data-matrix]").forEach((host) => {
       if (host.childElementCount) return; // guard against double-run
       for (let i = 0; i < 26; i++) {

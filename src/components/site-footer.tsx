@@ -14,7 +14,7 @@ export function SiteFooter({ stamp }: { stamp: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const phaseRef = useRef(0);
 
-  // Breathing contribution heatmap behind the footer. Pintado em rAF e
+  // Heatmap de contribuições respirando atrás do footer. Pintado em rAF e
   // pausado fora da viewport. O buffer só é redimensionado no resize — antes
   // era reatribuído a cada frame, o que forçava realocação ~9x por segundo.
   useEffect(() => {

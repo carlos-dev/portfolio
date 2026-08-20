@@ -3,34 +3,58 @@
 import { useState } from "react";
 import { deps, type Dep } from "@/lib/content";
 
-// Non-breaking spaces keep the ASCII tree aligned once HTML collapses runs.
-const NBSP = "  ";
-const INDENT = "   ";
+// Espaços não-quebráveis mantêm a árvore ASCII alinhada depois que o HTML
+// colapsa sequências de espaço.
+const NBSP = "  ";
+const INDENT = "   ";
 
-export function Stack() {
-  const [active, setActive] = useState<string | null>(null);
+// `deps` é constante de módulo: particionar e indexar a cada render seria
+// trabalho jogado fora.
+const dependencies = deps.filter((d) => d.group === "dependencies");
+const infrastructure = deps.filter((d) => d.group === "infrastructure");
+const byKey = new Map(deps.map((d) => [d.key, d]));
 
-  const dependencies = deps.filter((d) => d.group === "dependencies");
-  const infrastructure = deps.filter((d) => d.group === "infrastructure");
-  const current: Dep | undefined = deps.find((d) => d.key === active);
+// IMPORTANTE: fica no escopo do módulo, não dentro de <Stack>. Definido lá
+// dentro, virava um tipo de componente novo a cada render — React remontava
+// todas as linhas e o botão que acabara de receber foco era destruído, jogando
+// o foco de volta no <body>. Isso quebrava a navegação por teclado da árvore.
+function DepLine({
+  d,
+  last,
+  active,
+  onActivate,
+}: {
+  d: Dep;
+  last: boolean;
+  active: string | null;
+  onActivate: (key: string) => void;
+}) {
+  const color =
+    active === null
+      ? "text-fg"
+      : active === d.key
+        ? "text-accent"
+        : "text-dim-3";
 
-  const btnColor = (key: string) =>
-    active === null ? "text-fg" : active === key ? "text-accent" : "text-dim-3";
-
-  const DepLine = ({ d, last }: { d: Dep; last: boolean }) => (
+  return (
     <div>
       <span className="text-line-2">{`│${NBSP}${last ? "└─" : "├─"} `}</span>
       <button
         type="button"
-        onMouseEnter={() => setActive(d.key)}
-        onFocus={() => setActive(d.key)}
-        className={`cursor-pointer border-0 bg-transparent p-0 transition-colors duration-[140ms] ${btnColor(d.key)}`}
+        onMouseEnter={() => onActivate(d.key)}
+        onFocus={() => onActivate(d.key)}
+        className={`cursor-pointer border-0 bg-transparent p-0 transition-colors duration-[140ms] ${color}`}
       >
         {d.name}
       </button>
       <span className="text-dim-3"> {d.version}</span>
     </div>
   );
+}
+
+export function Stack() {
+  const [active, setActive] = useState<string | null>(null);
+  const current: Dep | undefined = active ? byKey.get(active) : undefined;
 
   return (
     <section id="stack" aria-labelledby="stack-title" className="border-b border-line">
@@ -53,14 +77,26 @@ export function Stack() {
             ├─ <span className="text-dim-2">dependencies</span>
           </div>
           {dependencies.map((d, i) => (
-            <DepLine key={d.key} d={d} last={i === dependencies.length - 1} />
+            <DepLine
+              key={d.key}
+              d={d}
+              last={i === dependencies.length - 1}
+              active={active}
+              onActivate={setActive}
+            />
           ))}
 
           <div className="text-dim-3">
             ├─ <span className="text-dim-2">infrastructure</span>
           </div>
           {infrastructure.map((d, i) => (
-            <DepLine key={d.key} d={d} last={i === infrastructure.length - 1} />
+            <DepLine
+              key={d.key}
+              d={d}
+              last={i === infrastructure.length - 1}
+              active={active}
+              onActivate={setActive}
+            />
           ))}
 
           <div className="text-dim-3">

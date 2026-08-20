@@ -30,7 +30,7 @@ const personSchema = {
 };
 
 export default function Home() {
-  // Computed once at build time and embedded in the static HTML.
+  // Calculado uma vez no build e embutido no HTML estático.
   const now = new Date();
   const stamp = `carlosandre.dev · ${now.getFullYear()} · build ${now
     .toISOString()

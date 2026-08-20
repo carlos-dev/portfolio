@@ -15,7 +15,7 @@ export function ContactForm() {
 
   return (
     <div className="relative mb-[clamp(40px,5vw,64px)] max-w-[640px] border border-line bg-surface">
-      {/* title bar */}
+      {/* barra de título */}
       <div className="flex items-center justify-between gap-3 border-b border-line bg-surface-2 px-[14px] py-2.5 font-mono text-[10.5px] tracking-[0.1em] text-dim-2">
         <span className="flex items-center gap-1.5">
           {[0, 1, 2].map((i) => (
@@ -42,7 +42,7 @@ export function ContactForm() {
         </div>
       ) : (
         <form action={formAction} className="p-4">
-          {/* honeypot — hidden from users, catches bots */}
+          {/* honeypot — invisível para humanos, pega bot */}
           <div
             aria-hidden="true"
             className="absolute left-[-9999px] h-px w-px overflow-hidden"
