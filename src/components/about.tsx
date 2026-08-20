@@ -2,13 +2,14 @@ import { about } from "@/lib/content";
 
 export function About() {
   return (
-    <section id="about" className="border-b border-line">
-      <p
+    <section id="about" aria-labelledby="about-title" className="border-b border-line">
+      <h2
+        id="about-title"
         data-reveal="1"
         className="px-gutter pt-[clamp(40px,6vw,80px)] pb-[clamp(24px,3vw,36px)] font-mono text-[11px] tracking-[0.16em] text-dim-2"
       >
         03 / ABOUT
-      </p>
+      </h2>
 
       <div
         data-reveal="1"

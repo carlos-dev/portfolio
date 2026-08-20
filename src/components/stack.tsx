@@ -33,12 +33,12 @@ export function Stack() {
   );
 
   return (
-    <section id="stack" className="border-b border-line">
+    <section id="stack" aria-labelledby="stack-title" className="border-b border-line">
       <div
         data-reveal="1"
         className="flex flex-wrap items-baseline justify-between gap-4 px-gutter pt-[clamp(40px,6vw,80px)] pb-[clamp(24px,3vw,36px)] font-mono text-[11px] tracking-[0.16em] text-dim-2"
       >
-        <span>02 / STACK</span>
+        <h2 id="stack-title">02 / STACK</h2>
         <span>árvore de dependências · hover para inspecionar</span>
       </div>
 

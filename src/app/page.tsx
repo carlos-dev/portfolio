@@ -37,19 +37,23 @@ export default function Home() {
     .slice(0, 10)}`;
 
   return (
-    <main id="conteudo" className="min-h-screen overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden">
       <script
         type="application/ld+json"
         // Dados estáticos definidos acima — nada vem de input do usuário.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
+      {/* header e footer ficam FORA de <main>: como descendentes dele
+          perderiam os papéis banner e contentinfo. */}
       <SiteHeader />
-      <Hero />
-      <SelectedWork />
-      <Stack />
-      <About />
+      <main id="conteudo">
+        <Hero />
+        <SelectedWork />
+        <Stack />
+        <About />
+      </main>
       <SiteFooter stamp={stamp} />
       <SiteEffects />
-    </main>
+    </div>
   );
 }

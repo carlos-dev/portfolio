@@ -135,12 +135,12 @@ function Card({ p }: { p: Project }) {
 
 export function SelectedWork() {
   return (
-    <section id="work" className="border-b border-line">
+    <section id="work" aria-labelledby="work-title" className="border-b border-line">
       <div
         data-reveal="1"
         className="flex flex-wrap items-baseline justify-between gap-4 px-gutter pt-[clamp(40px,6vw,80px)] pb-[clamp(24px,3vw,36px)] font-mono text-[11px] tracking-[0.16em] text-dim-2"
       >
-        <span>01 / SELECTED WORK</span>
+        <h2 id="work-title">01 / SELECTED WORK</h2>
         <span>04 systems · running</span>
       </div>
 
