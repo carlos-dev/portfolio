@@ -1,16 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { profile } from "@/lib/content";
 
 export function SiteHeader() {
-  const [clock, setClock] = useState("--:--:--");
+  const clockRef = useRef<HTMLSpanElement>(null);
 
+  // O relógio é valor transitório: escreve direto no nó em vez de passar por
+  // estado. Com useState isto re-renderizava o header uma vez por segundo,
+  // para sempre. O header não tem outro estado, então nada mais o re-renderiza
+  // e o texto escrito aqui não corre risco de ser revertido pelo React.
   useEffect(() => {
     const pad = (n: number) => String(n).padStart(2, "0");
     const tick = () => {
+      const node = clockRef.current;
+      if (!node) return;
       const d = new Date();
-      setClock(`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`);
+      node.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     };
     tick();
     const id = setInterval(tick, 1000);
@@ -26,8 +32,12 @@ export function SiteHeader() {
         <span className="hidden min-[720px]:inline">{profile.location}</span>
         <span className="size-[5px] shrink-0 animate-dot-slow rounded-full bg-accent" />
         <span className="text-accent">SYSTEM ONLINE</span>
-        <span aria-hidden="true" className="min-w-[60px] text-right text-dim-3">
-          {clock}
+        <span
+          ref={clockRef}
+          aria-hidden="true"
+          className="min-w-[60px] text-right text-dim-3"
+        >
+          --:--:--
         </span>
       </span>
     </header>
