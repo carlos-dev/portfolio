@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { deps, type Dep } from "@/lib/content";
+import { deps, scripts, type Dep } from "@/lib/content";
 
 // Espaços não-quebráveis mantêm a árvore ASCII alinhada depois que o HTML
 // colapsa sequências de espaço.
@@ -11,6 +11,7 @@ const INDENT = "   ";
 // `deps` é constante de módulo: particionar e indexar a cada render seria
 // trabalho jogado fora.
 const dependencies = deps.filter((d) => d.group === "dependencies");
+const ai = deps.filter((d) => d.group === "ai");
 const infrastructure = deps.filter((d) => d.group === "infrastructure");
 const byKey = new Map(deps.map((d) => [d.key, d]));
 
@@ -87,6 +88,19 @@ export function Stack() {
           ))}
 
           <div className="text-dim-3">
+            ├─ <span className="text-dim-2">ai</span>
+          </div>
+          {ai.map((d, i) => (
+            <DepLine
+              key={d.key}
+              d={d}
+              last={i === ai.length - 1}
+              active={active}
+              onActivate={setActive}
+            />
+          ))}
+
+          <div className="text-dim-3">
             ├─ <span className="text-dim-2">infrastructure</span>
           </div>
           {infrastructure.map((d, i) => (
@@ -102,15 +116,12 @@ export function Stack() {
           <div className="text-dim-3">
             └─ <span className="text-dim-2">scripts</span>
           </div>
-          <div className="text-dim-3">
-            {`${INDENT}├─ build `}
-            <span className="text-line-2">→</span> ship pequeno, cedo, com log
-          </div>
-          <div className="text-dim-3">
-            {`${INDENT}└─ debug `}
-            <span className="text-line-2">→</span> ler o erro inteiro antes de
-            opinar
-          </div>
+          {scripts.map((sc, i) => (
+            <div key={sc.name} className="text-dim-3">
+              {`${INDENT}${i === scripts.length - 1 ? "└─" : "├─"} ${sc.name} `}
+              <span className="text-line-2">→</span> {sc.text}
+            </div>
+          ))}
         </div>
 
         <div

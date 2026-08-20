@@ -188,20 +188,13 @@ export type Stat = {
   accent?: boolean;
 };
 
-export const stats: Stat[] = [
-  { value: 8, label: "ANOS DE OFÍCIO", count: true, accent: true },
-  { value: 4, label: "SISTEMAS EM PÉ", count: true },
-  { value: 9, label: "TECNOLOGIAS EM USO", count: true },
-  { value: 1, label: "PRODUTO PRÓPRIO", count: false },
-];
-
 // ---------------------------------------------------------------------------
 
 export type Dep = {
   key: string;
   name: string;
   version: string;
-  group: "dependencies" | "infrastructure";
+  group: "dependencies" | "ai" | "infrastructure";
   desc: string;
   used: string;
 };
@@ -256,6 +249,30 @@ export const deps: Dep[] = [
     used: "radar-congresso · claude-investimentos",
   },
   {
+    key: "n8n",
+    name: "n8n",
+    version: "^1.7",
+    group: "ai",
+    desc: "Workflow que roda sem ninguém olhando. O que seria cron com retry vira desenho, e o desenho vira a documentação.",
+    used: "cutcast",
+  },
+  {
+    key: "mcp",
+    name: "mcp",
+    version: "latest",
+    group: "ai",
+    desc: "Protocolo para o modelo falar com ferramenta de verdade. Tool estreita, log de tudo — agente sem isso é chute com sotaque.",
+    used: "ferramental próprio",
+  },
+  {
+    key: "langfuse",
+    name: "langfuse",
+    version: "^3.0",
+    group: "ai",
+    desc: "Trace, custo por chamada e avaliação. Sem isso, trocar de modelo é fé; com isso, é medição.",
+    used: "ferramental próprio",
+  },
+  {
     key: "postgresql",
     name: "postgresql",
     version: "^16",
@@ -279,6 +296,25 @@ export const deps: Dep[] = [
     desc: "Mesma caixa na minha máquina e em produção. Encerra a discussão antes dela começar.",
     used: "claude-investimentos · radar-congresso",
   },
+];
+
+// Definida depois de `deps` de propósito: o número sai de lá, para não
+// envelhecer sozinho toda vez que a árvore cresce.
+export const stats: Stat[] = [
+  { value: 8, label: "ANOS DE OFÍCIO", count: true, accent: true },
+  { value: 4, label: "SISTEMAS EM PÉ", count: true },
+  { value: deps.length, label: "TECNOLOGIAS NA CAIXA", count: true },
+  { value: 1, label: "PRODUTO PRÓPRIO", count: false },
+];
+
+// O galho `scripts` da árvore não guarda comando, guarda método.
+export type Script = { name: string; text: string };
+
+export const scripts: Script[] = [
+  { name: "build", text: "ship pequeno, cedo, com log" },
+  { name: "debug", text: "ler o erro inteiro antes de opinar" },
+  { name: "prompt", text: "contrato, não conversa: schema na saída" },
+  { name: "eval", text: "medir antes de trocar de modelo" },
 ];
 
 export const about = [
