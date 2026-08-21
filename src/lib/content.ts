@@ -79,7 +79,7 @@ export const COMMANDS: Record<string, TermLine[]> = {
   "ls projects": [
     out("drwxr-xr-x  cutcast/               live     next · node · postgres"),
     out("drwxr-xr-x  fumasil/               beta     react · ts · supabase"),
-    out("drwxr-xr-x  radar-congresso/       syncing  next · python · postgres"),
+    out("drwxr-xr-x  radar-congresso/       syncing  next · prisma · supabase"),
     out("drwxr-xr-x  claude-investimentos/  private  python · ts · docker"),
   ],
   "cat about": [
@@ -165,14 +165,15 @@ export const projects: Project[] = [
     idx: "03",
     title: "radar-congresso",
     tag: "OPEN SOURCE",
+    href: "https://radar-congresso.vercel.app",
     desc: "Fiscalização de parlamentares federais em cima de dados públicos vivos: gastos, votos e presença, atualizados na fonte.",
-    stack: ["Next.js", "Python", "PostgreSQL"],
+    stack: ["Next.js", "Prisma", "Supabase"],
     viz: {
       kind: "grid",
       // Painel de votação nominal: # presente/sim, . ausente/não.
       rows: ["##.###.##.####.##.###.###.", "###.##.###.##.####.##.##.#"],
     },
-    metaLabel: "// ingest de dados abertos",
+    metaLabel: "radar-congresso.vercel.app",
     status: "SYNCING",
     live: true,
   },
