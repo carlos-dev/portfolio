@@ -80,7 +80,7 @@ export const COMMANDS: Record<string, TermLine[]> = {
     out("drwxr-xr-x  cutcast/               live     next · node · postgres"),
     out("drwxr-xr-x  fumasil/               beta     react · ts · supabase"),
     out("drwxr-xr-x  radar-congresso/       syncing  next · prisma · supabase"),
-    out("drwxr-xr-x  claude-investimentos/  private  python · ts · docker"),
+    out("drwxr-xr-x  leveme/                live     next · ai agents"),
   ],
   "cat about": [
     out("Oito anos escrevendo software e, no fundo, sempre o mesmo"),
@@ -111,7 +111,8 @@ export type Viz =
   // A forma tem que ser o dado do projeto, não enfeite que pulsa.
   | { kind: "wave"; heights: string; cuts: string }
   | { kind: "spark"; path: string; cy: number }
-  | { kind: "grid"; rows: string[] };
+  | { kind: "grid"; rows: string[] }
+  | { kind: "route"; points: string };
 
 export type Project = {
   idx: string;
@@ -135,7 +136,7 @@ export const projects: Project[] = [
     tagAccent: true,
     href: "https://cutcast.com.br",
     desc: "Produto próprio: transforma vídeo longo em cortes prontos para publicar, sem passar por edição manual.",
-    stack: ["Next.js", "Node", "PostgreSQL", "Supabase"],
+    stack: ["Next.js", "Node", "PostgreSQL", "Supabase", "n8n"],
     viz: {
       kind: "wave",
       // O sinal do vídeo longo (altura 0-9 por amostra) e, na mesma régua,
@@ -163,7 +164,7 @@ export const projects: Project[] = [
   },
   {
     idx: "03",
-    title: "radar-congresso",
+    title: "Radar do Congresso",
     tag: "OPEN SOURCE",
     href: "https://radar-congresso.vercel.app",
     desc: "Fiscalização de parlamentares federais em cima de dados públicos vivos: gastos, votos e presença, atualizados na fonte.",
@@ -179,17 +180,19 @@ export const projects: Project[] = [
   },
   {
     idx: "04",
-    title: "claude-investimentos",
-    tag: "TOOLING",
-    desc: "Suíte de análise de ativos para investidor pessoa física: consolida carteira, cruza indicadores e explica o porquê.",
-    stack: ["Python", "TypeScript", "Docker"],
+    title: "leveme",
+    tag: "AI AGENT",
+    href: "https://leveme.vercel.app",
+    desc: "Gera itinerário de viagem otimizado. O agente decide a ordem das atividades e o trajeto entre elas — o trabalho que normalmente vira planilha, aba de mapa aberta e retrabalho.",
+    stack: ["Next.js", "AI Agents"],
     viz: {
-      kind: "spark",
-      path: "M0 24 L20 30 L40 18 L60 22 L80 12 L100 20 L120 8 L140 16 L160 6 L180 14 L200 10 L220 18 L240 11",
-      cy: 11,
+      kind: "route",
+      // As paradas de um itinerário, na ordem que o agente escolheu.
+      points: "8,36 30,14 62,24 96,10 132,30 168,18 200,34 232,20",
     },
-    metaLabel: "// série de preços, normalizada",
-    status: "PRIVATE",
+    metaLabel: "leveme.vercel.app",
+    status: "LIVE",
+    live: true,
   },
 ];
 
@@ -227,7 +230,7 @@ export const deps: Dep[] = [
     version: "^15.3",
     group: "dependencies",
     desc: "App Router e server action entram no desenho, não no fim como detalhe de deploy. Neste site isso quer dizer que todas as rotas saem estáticas e só o formulário de contato existe em runtime.",
-    used: "cutcast · radar-congresso",
+    used: "cutcast · Radar do Congresso · leveme",
   },
   {
     key: "react",
@@ -235,7 +238,7 @@ export const deps: Dep[] = [
     version: "^19.0",
     group: "dependencies",
     desc: "UI é função do dado. Quando o estado mora em três lugares você não tem bug de render, tem bug de arquitetura fantasiado de bug de render. Aqui todo texto vem de um arquivo só.",
-    used: "cutcast · Fumasil · radar-congresso",
+    used: "cutcast · Fumasil · Radar do Congresso",
   },
   {
     key: "node",
@@ -251,7 +254,7 @@ export const deps: Dep[] = [
     version: "^4.0",
     group: "dependencies",
     desc: "Restrição, não atalho. Escala fixa mata a decisão de 3px que ninguém revisa e todo mundo repete diferente. Cor, tipografia e animação deste site saem de 31 tokens no @theme.",
-    used: "cutcast · Fumasil · radar-congresso",
+    used: "cutcast · Fumasil · Radar do Congresso",
   },
   {
     key: "python",
@@ -259,7 +262,7 @@ export const deps: Dep[] = [
     version: "^3.12",
     group: "dependencies",
     desc: "Para dado bagunçado, script vence serviço. Ingest, parsing, análise que roda três vezes e vai fora — nessa faixa, montar arquitetura é procrastinação com nome bonito.",
-    used: "radar-congresso · claude-investimentos",
+    used: "Radar do Congresso · claude-investimentos",
   },
   {
     key: "n8n",
@@ -315,7 +318,7 @@ export const deps: Dep[] = [
     version: "^16",
     group: "infrastructure",
     desc: "A fonte da verdade, e levo ao pé da letra: constraint, check e foreign key no banco. Regra que só existe na aplicação é regra que a próxima aplicação vai ignorar.",
-    used: "cutcast · radar-congresso · claude-investimentos",
+    used: "cutcast · Radar do Congresso · claude-investimentos",
   },
   {
     key: "supabase",
@@ -331,7 +334,7 @@ export const deps: Dep[] = [
     version: "latest",
     group: "infrastructure",
     desc: "Mesma caixa na minha máquina e em produção. Não é elegância — é encerrar a conversa \"aqui funciona\" antes que ela custe uma tarde.",
-    used: "claude-investimentos · radar-congresso",
+    used: "claude-investimentos · Radar do Congresso",
   },
 ];
 

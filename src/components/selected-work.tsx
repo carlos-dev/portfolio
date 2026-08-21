@@ -68,6 +68,49 @@ function Visualization({ viz }: { viz: Viz }) {
     );
   }
 
+  // leveme: as paradas de um itinerário, ligadas pelo trajeto. Reusa o
+  // data-spark, então o traço se desenha sozinho no reveal de scroll.
+  if (viz.kind === "route") {
+    const stops = viz.points
+      .split(" ")
+      .map((pair) => pair.split(",").map(Number));
+    const line = stops
+      .map(([stopX, stopY]) => `${stopX} ${stopY}`)
+      .join(" L");
+    return (
+      <svg
+        viewBox="0 0 240 44"
+        preserveAspectRatio="none"
+        className="h-11 w-full overflow-visible"
+        aria-hidden="true"
+      >
+        <path
+          data-spark="1"
+          d={`M${line}`}
+          fill="none"
+          strokeWidth={1.25}
+          className="stroke-line-2 group-hover:stroke-accent group-focus-within:stroke-accent"
+        />
+        {stops.map(([stopX, stopY], index) => {
+          const edge = index === 0 || index === stops.length - 1;
+          return (
+            <circle
+              key={index}
+              cx={stopX}
+              cy={stopY}
+              r={edge ? 3 : 2}
+              className={
+                edge
+                  ? "fill-accent"
+                  : "fill-line-2 group-hover:fill-accent group-focus-within:fill-accent"
+              }
+            />
+          );
+        })}
+      </svg>
+    );
+  }
+
   // radar-congresso: painel de votação nominal, varrido pelo ingest.
   return (
     <span
