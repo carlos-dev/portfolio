@@ -183,7 +183,7 @@ export const projects: Project[] = [
     title: "leveme",
     tag: "AI AGENT",
     href: "https://leveme.vercel.app",
-    desc: "Gera itinerário de viagem otimizado. O agente decide a ordem das atividades e o trajeto entre elas — o trabalho que normalmente vira planilha, aba de mapa aberta e retrabalho.",
+    desc: "Gera itinerário de viagem otimizado. A ordem das paradas e o trajeto saem da API de mapas e do cálculo de distância; o agente escreve o roteiro em cima disso. Rota é problema de solver, não de modelo.",
     stack: ["Next.js", "AI Agents"],
     viz: {
       kind: "route",
