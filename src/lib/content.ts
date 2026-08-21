@@ -108,9 +108,10 @@ export const SECRET_OUTPUT: TermLine[] = [
 // ---------------------------------------------------------------------------
 
 export type Viz =
-  | { kind: "bars" }
+  // A forma tem que ser o dado do projeto, não enfeite que pulsa.
+  | { kind: "track"; cuts: { at: number; width: number }[] }
   | { kind: "spark"; path: string; cy: number }
-  | { kind: "matrix" };
+  | { kind: "grid"; rows: string[] };
 
 export type Project = {
   idx: string;
@@ -135,7 +136,16 @@ export const projects: Project[] = [
     href: "https://cutcast.com.br",
     desc: "Produto próprio: transforma vídeo longo em cortes prontos para publicar, sem passar por edição manual.",
     stack: ["Next.js", "Node", "PostgreSQL", "Supabase"],
-    viz: { kind: "bars" },
+    viz: {
+      kind: "track",
+      // A trilha é o vídeo longo; cada corte é um pedaço que sai dela.
+      cuts: [
+        { at: 6, width: 12 },
+        { at: 31, width: 9 },
+        { at: 49, width: 14 },
+        { at: 76, width: 10 },
+      ],
+    },
     metaLabel: "cutcast.com.br",
     status: "LIVE",
     live: true,
@@ -160,7 +170,11 @@ export const projects: Project[] = [
     tag: "OPEN SOURCE",
     desc: "Fiscalização de parlamentares federais em cima de dados públicos vivos: gastos, votos e presença, atualizados na fonte.",
     stack: ["Next.js", "Python", "PostgreSQL"],
-    viz: { kind: "matrix" },
+    viz: {
+      kind: "grid",
+      // Painel de votação nominal: # presente/sim, . ausente/não.
+      rows: ["##.###.##.####.##.###.###.", "###.##.###.##.####.##.##.#"],
+    },
     metaLabel: "// ingest de dados abertos",
     status: "SYNCING",
     live: true,

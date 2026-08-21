@@ -37,10 +37,6 @@ Os tokens vivem em `@theme` no `src/app/globals.css`: cores, escala tipográfica
 fluida (`--text-display`, `--text-body`, …) e animações. Use as utilities
 (`bg-bg`, `text-dim`, `text-project`, `animate-bars`) em vez de valores soltos.
 
-IMPORTANT: `src/lib/ui.ts` duplica a paleta em hex porque canvas e elementos
-criados via JS não leem `var()`. Mudou uma cor no `@theme`, mude no `ui.ts`
-junto — nada quebra no build se você esquecer, só desalinha na tela.
-
 Tema é dark-only com um único acento (`--color-accent`, lime). Não introduza uma
 segunda cor de destaque.
 

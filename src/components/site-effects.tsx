@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { colors } from "@/lib/ui";
 
 /**
  * Não renderiza nada. Toca as animações disparadas por scroll sobre as seções
@@ -20,20 +19,6 @@ export function SiteEffects() {
     const reduced = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-
-    // card do radar-congresso: matrix de ingest de 26 células, montada no cliente.
-    document.querySelectorAll<HTMLElement>("[data-matrix]").forEach((host) => {
-      if (host.childElementCount) return; // guard against double-run
-      for (let index = 0; index < 26; index++) {
-        const cell = document.createElement("i");
-        const hot = index % 7 === 3;
-        cell.style.cssText = `display:block;height:${10 + (index % 4) * 8}px;background:${hot ? colors.accent : colors.border};opacity:${hot ? ".85" : "1"};align-self:end`;
-        if (!reduced)
-          cell.style.animation = `bars 2.6s cubic-bezier(.4,0,.2,1) ${-index * 0.09}s infinite`;
-        cell.style.transformOrigin = "bottom";
-        host.appendChild(cell);
-      }
-    });
 
     const reveals = Array.from(
       document.querySelectorAll<HTMLElement>("[data-reveal]"),

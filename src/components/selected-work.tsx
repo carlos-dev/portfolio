@@ -1,26 +1,28 @@
 import { Fragment } from "react";
 import { projects, stats, type Project, type Viz } from "@/lib/content";
 
-const BAR_DELAYS = [
-  "0ms", "-.2s", "-.4s", "-.6s", "-.8s", "-1s",
-  "-1.2s", "-1.4s", "-1.6s", "-1.8s", "-2s", "-.1s",
-];
-
 function Visualization({ viz }: { viz: Viz }) {
-  if (viz.kind === "bars") {
+  // cutcast: uma trilha longa e os pedaços que saem dela.
+  if (viz.kind === "track") {
     return (
-      <span aria-hidden="true" className="flex h-11 items-end gap-[3px]">
-        {BAR_DELAYS.map((delay, index) => (
-          <i
-            key={index}
-            style={{ animationDelay: delay }}
-            className={`h-full flex-1 origin-bottom animate-bars bg-line ${
-              index % 3 === 0
-                ? "group-hover:bg-accent group-focus-within:bg-accent"
-                : ""
-            }`}
-          />
-        ))}
+      <span
+        aria-hidden="true"
+        className="flex h-11 flex-col justify-center gap-2.5"
+      >
+        <span className="block h-px w-full bg-line-2" />
+        <span className="relative block h-2.5">
+          {viz.cuts.map((cut, index) => (
+            <i
+              key={cut.at}
+              style={{
+                left: `${cut.at}%`,
+                width: `${cut.width}%`,
+                animationDelay: `${-index * 0.6}s`,
+              }}
+              className="absolute top-0 block h-2.5 animate-cut bg-accent"
+            />
+          ))}
+        </span>
       </span>
     );
   }
@@ -50,13 +52,30 @@ function Visualization({ viz }: { viz: Viz }) {
     );
   }
 
-  // matrix — as células são injetadas no cliente por <SiteEffects>
+  // radar-congresso: painel de votação nominal, varrido pelo ingest.
   return (
-    <div
-      data-matrix="1"
+    <span
       aria-hidden="true"
-      className="grid h-11 grid-cols-[repeat(26,1fr)] content-center gap-[3px]"
-    />
+      className="flex h-11 flex-col justify-center gap-[3px]"
+    >
+      {viz.rows.map((row, rowIndex) => (
+        <span key={row} className="flex gap-[3px]">
+          {[...row].map((cell, colIndex) => (
+            <i
+              key={colIndex}
+              style={{
+                animationDelay: `${(rowIndex * row.length + colIndex) * 0.028}s`,
+              }}
+              className={`block h-[11px] flex-1 animate-ingest ${
+                cell === "#"
+                  ? "bg-line-2 group-hover:bg-accent group-focus-within:bg-accent"
+                  : "border border-line"
+              }`}
+            />
+          ))}
+        </span>
+      ))}
+    </span>
   );
 }
 

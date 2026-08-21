@@ -38,7 +38,8 @@
   --animate-glitch: glitch 1.8s steps(1) 1;
   --animate-dot: dotpulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   --animate-dot-slow: dotpulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  --animate-bars: bars 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-cut: cutmark 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-ingest: ingest 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 /* As fontes vêm do next/font como CSS vars de runtime (--font-inter /
@@ -125,13 +126,29 @@
     transform: scale(1.35);
   }
 }
-@keyframes bars {
+/* cutcast: cada corte acende na sua vez, da esquerda para a direita. */
+@keyframes cutmark {
   0%,
-  100% {
-    transform: scaleY(0.15);
+  20% {
+    opacity: 1;
   }
-  50% {
-    transform: scaleY(1);
+  30%,
+  100% {
+    opacity: 0.22;
+  }
+}
+/* radar-congresso: o dado varre a grade, chegando da fonte. */
+@keyframes ingest {
+  0%,
+  3% {
+    opacity: 0.12;
+  }
+  9%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.12;
   }
 }
 @keyframes glitch {

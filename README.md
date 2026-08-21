@@ -37,7 +37,6 @@ src/
     site-effects.tsx  # reveal on-scroll, count-up, matrix, sparklines (client)
   lib/
     content.ts        # TODO O CONTEÚDO editável: perfil, projetos, deps, comandos
-    ui.ts             # cores hex (só p/ o canvas/matrix gerados em JS)
 ```
 
 ## Como editar o conteúdo
