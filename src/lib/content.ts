@@ -109,7 +109,7 @@ export const SECRET_OUTPUT: TermLine[] = [
 
 export type Viz =
   // A forma tem que ser o dado do projeto, não enfeite que pulsa.
-  | { kind: "track"; cuts: { at: number; width: number }[] }
+  | { kind: "wave"; heights: string; cuts: string }
   | { kind: "spark"; path: string; cy: number }
   | { kind: "grid"; rows: string[] };
 
@@ -137,14 +137,11 @@ export const projects: Project[] = [
     desc: "Produto próprio: transforma vídeo longo em cortes prontos para publicar, sem passar por edição manual.",
     stack: ["Next.js", "Node", "PostgreSQL", "Supabase"],
     viz: {
-      kind: "track",
-      // A trilha é o vídeo longo; cada corte é um pedaço que sai dela.
-      cuts: [
-        { at: 6, width: 12 },
-        { at: 31, width: 9 },
-        { at: 49, width: 14 },
-        { at: 76, width: 10 },
-      ],
+      kind: "wave",
+      // O sinal do vídeo longo (altura 0-9 por amostra) e, na mesma régua,
+      // quais amostras entram num corte. As duas strings têm o mesmo tamanho.
+      heights: "1122334578998654323467899876543223578997654321",
+      cuts: "......#####........#######........#####.......",
     },
     metaLabel: "cutcast.com.br",
     status: "LIVE",

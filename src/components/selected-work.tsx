@@ -1,28 +1,44 @@
 import { Fragment } from "react";
 import { projects, stats, type Project, type Viz } from "@/lib/content";
 
+// Agrupa amostras marcadas em cortes contíguos: "..##..###." -> corte 0 e 1.
+// Serve para o destaque acender por corte, não amostra por amostra.
+function cutGroups(mask: string) {
+  const groups = new Map<number, number>();
+  let group = -1;
+  for (let index = 0; index < mask.length; index++) {
+    if (mask[index] !== "#") continue;
+    if (mask[index - 1] !== "#") group += 1;
+    groups.set(index, group);
+  }
+  return groups;
+}
+
 function Visualization({ viz }: { viz: Viz }) {
-  // cutcast: uma trilha longa e os pedaços que saem dela.
-  if (viz.kind === "track") {
+  // cutcast: o sinal do vídeo longo, com as regiões que viram corte em
+  // destaque. Altura é dado e fica parada — o que anima é só o destaque.
+  if (viz.kind === "wave") {
+    const groups = cutGroups(viz.cuts);
     return (
-      <span
-        aria-hidden="true"
-        className="flex h-11 flex-col justify-center gap-2.5"
-      >
-        <span className="block h-px w-full bg-line-2" />
-        <span className="relative block h-2.5">
-          {viz.cuts.map((cut, index) => (
+      <span aria-hidden="true" className="flex h-11 items-end gap-[2px]">
+        {[...viz.heights].map((height, index) => {
+          const group = groups.get(index);
+          return (
             <i
-              key={cut.at}
+              key={index}
               style={{
-                left: `${cut.at}%`,
-                width: `${cut.width}%`,
-                animationDelay: `${-index * 0.6}s`,
+                height: `${20 + Number(height) * 8.5}%`,
+                animationDelay:
+                  group === undefined ? undefined : `${-group * 0.6}s`,
               }}
-              className="absolute top-0 block h-2.5 animate-cut bg-accent"
+              className={`block flex-1 ${
+                group === undefined
+                  ? "bg-line group-hover:bg-line-2 group-focus-within:bg-line-2"
+                  : "animate-cut bg-accent"
+              }`}
             />
-          ))}
-        </span>
+          );
+        })}
       </span>
     );
   }
