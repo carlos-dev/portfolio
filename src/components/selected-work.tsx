@@ -43,7 +43,31 @@ function Visualization({ viz }: { viz: Viz }) {
     );
   }
 
-  if (viz.kind === "spark") {
+  // Fumasil: dias sem fumar por tentativa. Sobe, zera a pino na recaída e
+  // sobe de novo. A última série não zera — é a que está em curso.
+  if (viz.kind === "streak") {
+    const BASE = 41;
+    const TOPO = 3;
+    // Fatia igual por tentativa. Largura proporcional à duração fazia as
+    // primeiras virarem lascas e a última uma reta: as recaídas sumiam, que
+    // era justamente o que o desenho tinha para mostrar.
+    const FATIA = 240 / viz.runs.length;
+    // Piso de 15% para a tentativa mais curta ainda ler como dente num
+    // gráfico de 44px de altura.
+    const PISO = 0.15;
+    const maior = Math.max(...viz.runs);
+    const alturaDe = (run: number) =>
+      BASE - (PISO + (1 - PISO) * (run / maior)) * (BASE - TOPO);
+
+    const trechos = [`M0 ${BASE}`];
+    viz.runs.forEach((run, index) => {
+      const fim = (index + 1) * FATIA;
+      trechos.push(`L${fim.toFixed(1)} ${alturaDe(run).toFixed(1)}`);
+      if (index < viz.runs.length - 1) trechos.push(`L${fim.toFixed(1)} ${BASE}`);
+    });
+
+    const ultimo = viz.runs[viz.runs.length - 1];
+
     return (
       <svg
         viewBox="0 0 240 44"
@@ -53,7 +77,7 @@ function Visualization({ viz }: { viz: Viz }) {
       >
         <path
           data-spark="1"
-          d={viz.path}
+          d={trechos.join(" ")}
           fill="none"
           strokeWidth={1.25}
           className="stroke-line-2 group-hover:stroke-accent group-focus-within:stroke-accent"
@@ -61,10 +85,7 @@ function Visualization({ viz }: { viz: Viz }) {
         <circle
           r={3}
           cx={240}
-          cy={viz.cy}
-          // transform-box/origin: em SVG o scale() usa a origem do viewBox por
-          // padrão, o que faz o ponto viajar para fora em vez de pulsar no
-          // lugar. Os pontos de status não sofrem disso porque são HTML.
+          cy={alturaDe(ultimo)}
           className="animate-dot-slow fill-accent [transform-box:fill-box] origin-center"
         />
       </svg>

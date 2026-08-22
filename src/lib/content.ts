@@ -110,7 +110,7 @@ export const SECRET_OUTPUT: TermLine[] = [
 export type Viz =
   // A forma tem que ser o dado do projeto, não enfeite que pulsa.
   | { kind: "wave"; heights: string; cuts: string }
-  | { kind: "spark"; path: string; cy: number }
+  | { kind: "streak"; runs: number[] }
   | { kind: "grid"; rows: string[] }
   | { kind: "route"; points: string };
 
@@ -156,9 +156,11 @@ export const projects: Project[] = [
     desc: "Acompanha quem está parando de fumar dia a dia — registro, recaída sem culpa e progresso visível.",
     stack: ["React Native"],
     viz: {
-      kind: "spark",
-      path: "M0 40 L20 39 L40 36 L60 37 L80 31 L100 26 L120 27 L140 20 L160 15 L180 16 L200 9 L220 5 L240 3",
-      cy: 3,
+      kind: "streak",
+      // Dias sem fumar por tentativa; a queda entre elas é a recaída. A
+      // sequência não é monotônica de propósito: uma tentativa pior no meio é
+      // o "sem culpa" aparecendo no desenho, não só no texto.
+      runs: [4, 11, 7, 19, 38],
     },
     metaLabel: "Google Play",
     status: "BETA",
