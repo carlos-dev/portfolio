@@ -146,7 +146,10 @@ function Card({ project }: { project: Project }) {
       </span>
       <div className="grid min-w-0 grid-cols-1 gap-[clamp(16px,2.5vw,40px)] min-[900px]:grid-cols-[minmax(0,1.6fr)_minmax(0,.7fr)]">
         <div className="min-w-0">
-          <div className="flex flex-wrap items-baseline gap-3.5">
+          {/* items-center, não baseline: o badge é caixa com borda e padding,
+              então alinhar pela baseline do texto interno joga a caixa 16px
+              abaixo do centro do título. */}
+          <div className="flex flex-wrap items-center gap-3.5">
             <h3 className="text-project font-bold leading-none tracking-[-0.035em]">
               {project.title}
             </h3>

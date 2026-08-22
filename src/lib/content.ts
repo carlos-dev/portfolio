@@ -78,7 +78,7 @@ export const COMMANDS: Record<string, TermLine[]> = {
   ],
   "ls projects": [
     out("drwxr-xr-x  cutcast/               live     next · node · postgres"),
-    out("drwxr-xr-x  fumasil/               beta     react · ts · supabase"),
+    out("drwxr-xr-x  fumasil/               beta     react native · ts · supabase"),
     out("drwxr-xr-x  radar-congresso/       syncing  next · prisma · supabase"),
     out("drwxr-xr-x  leveme/                live     next · ai agents"),
   ],
@@ -152,14 +152,15 @@ export const projects: Project[] = [
     idx: "02",
     title: "Fumasil",
     tag: "APP",
+    href: "https://play.google.com/store/apps/details?id=com.playerum.fumasil&hl=pt_BR",
     desc: "Acompanha quem está parando de fumar dia a dia — registro, recaída sem culpa e progresso visível.",
-    stack: ["React", "TypeScript", "Supabase"],
+    stack: ["React Native", "TypeScript", "Supabase"],
     viz: {
       kind: "spark",
       path: "M0 40 L20 39 L40 36 L60 37 L80 31 L100 26 L120 27 L140 20 L160 15 L180 16 L200 9 L220 5 L240 3",
       cy: 3,
     },
-    metaLabel: "// dias sem fumar, por usuário",
+    metaLabel: "Google Play",
     status: "BETA",
   },
   {
