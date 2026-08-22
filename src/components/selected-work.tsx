@@ -62,7 +62,10 @@ function Visualization({ viz }: { viz: Viz }) {
           r={3}
           cx={240}
           cy={viz.cy}
-          className="animate-dot-slow fill-accent"
+          // transform-box/origin: em SVG o scale() usa a origem do viewBox por
+          // padrão, o que faz o ponto viajar para fora em vez de pulsar no
+          // lugar. Os pontos de status não sofrem disso porque são HTML.
+          className="animate-dot-slow fill-accent [transform-box:fill-box] origin-center"
         />
       </svg>
     );
