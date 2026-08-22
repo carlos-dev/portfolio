@@ -43,52 +43,44 @@ function Visualization({ viz }: { viz: Viz }) {
     );
   }
 
-  // Fumasil: dias sem fumar por tentativa. Sobe, zera a pino na recaída e
-  // sobe de novo. A última série não zera — é a que está em curso.
+  // Fumasil: cada tique é um dia sem fumar; o vão entre os grupos é a
+  // recaída. Marca sólida em vez de linha — é a linguagem do resto da
+  // seção, e traço fino de 1px ficava raquítico ao lado dos outros cards.
   if (viz.kind === "streak") {
-    const BASE = 41;
-    const TOPO = 3;
-    // Fatia igual por tentativa. Largura proporcional à duração fazia as
-    // primeiras virarem lascas e a última uma reta: as recaídas sumiam, que
-    // era justamente o que o desenho tinha para mostrar.
-    const FATIA = 240 / viz.runs.length;
-    // Piso de 15% para a tentativa mais curta ainda ler como dente num
-    // gráfico de 44px de altura.
-    const PISO = 0.15;
-    const maior = Math.max(...viz.runs);
-    const alturaDe = (run: number) =>
-      BASE - (PISO + (1 - PISO) * (run / maior)) * (BASE - TOPO);
-
-    const trechos = [`M0 ${BASE}`];
-    viz.runs.forEach((run, index) => {
-      const fim = (index + 1) * FATIA;
-      trechos.push(`L${fim.toFixed(1)} ${alturaDe(run).toFixed(1)}`);
-      if (index < viz.runs.length - 1) trechos.push(`L${fim.toFixed(1)} ${BASE}`);
-    });
-
-    const ultimo = viz.runs[viz.runs.length - 1];
-
+    // Dia em que cada série começa, para a varredura correr contínua entre
+    // os grupos. Derivado, não acumulado em variável mutável durante o render.
+    const inicioDa = viz.runs.map((_, index) =>
+      viz.runs.slice(0, index).reduce((soma, run) => soma + run, 0),
+    );
     return (
-      <svg
-        viewBox="0 0 240 44"
-        preserveAspectRatio="none"
-        className="h-11 w-full overflow-visible"
-        aria-hidden="true"
-      >
-        <path
-          data-spark="1"
-          d={trechos.join(" ")}
-          fill="none"
-          strokeWidth={1.25}
-          className="stroke-line-2 group-hover:stroke-accent group-focus-within:stroke-accent"
-        />
-        <circle
-          r={3}
-          cx={240}
-          cy={alturaDe(ultimo)}
-          className="animate-dot-slow fill-accent [transform-box:fill-box] origin-center"
-        />
-      </svg>
+      <span aria-hidden="true" className="flex h-11 items-center gap-[9px]">
+        {viz.runs.map((run, runIndex) => {
+          const emCurso = runIndex === viz.runs.length - 1;
+          return (
+            <span
+              key={runIndex}
+              // largura proporcional à duração: a série em curso ocupa mais
+              // espaço porque durou mais, e isso é o dado.
+              style={{ flexGrow: run, flexBasis: 0 }}
+              className="flex h-full items-center gap-[2px]"
+            >
+              {Array.from({ length: run }, (_, tique) => (
+                  <i
+                    key={tique}
+                    style={{
+                      animationDelay: `${(inicioDa[runIndex] + tique) * 0.018}s`,
+                    }}
+                    className={`block h-[22px] min-w-px flex-1 animate-ingest ${
+                      emCurso
+                        ? "bg-accent"
+                        : "bg-line-2 group-hover:bg-accent group-focus-within:bg-accent"
+                    }`}
+                  />
+              ))}
+            </span>
+          );
+        })}
+      </span>
     );
   }
 
