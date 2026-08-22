@@ -244,6 +244,14 @@ export const deps: Dep[] = [
     used: "cutcast · Fumasil · Radar do Congresso",
   },
   {
+    key: "react-native",
+    name: "react-native",
+    version: "^0.76",
+    group: "dependencies",
+    desc: "App no telefone com o mesmo modelo mental da web. O preço é saber onde a ponte quebra: lista longa, animação e teclado são onde o \"é só React\" acaba e começa o trabalho de verdade.",
+    used: "Fumasil",
+  },
+  {
     key: "node",
     name: "node",
     version: "^22 lts",
