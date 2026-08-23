@@ -225,7 +225,7 @@ export const deps: Dep[] = [
     version: "^5.6",
     group: "dependencies",
     desc: "TypeScript está presente praticamente em tudo que desenvolvo. Gosto de ter os tipos bem definidos porque muita coisa que seria descoberta só em produção acaba aparecendo enquanto estou desenvolvendo.",
-    used: "cutcast · Fumasil",
+    used: "cutcast",
   },
   {
     key: "next",
@@ -273,7 +273,7 @@ export const deps: Dep[] = [
     version: "^3.12",
     group: "dependencies",
     desc: "Quando o problema envolve dados, processamento ou algum script específico, Python costuma ser a escolha mais simples. Nem tudo precisa virar um serviço ou uma aplicação completa.",
-    used: "Radar do Congresso",
+    used: "fora dos projetos em vitrine",
   },
   {
     key: "n8n",
