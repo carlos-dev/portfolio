@@ -1,8 +1,13 @@
 import { about } from "@/lib/content";
+import { NoteLog } from "./note-log";
 
 export function About() {
   return (
-    <section id="about" aria-labelledby="about-title" className="border-b border-line">
+    <section
+      id="about"
+      aria-labelledby="about-title"
+      className="border-b border-line"
+    >
       <h2
         id="about-title"
         data-reveal="1"
@@ -11,21 +16,22 @@ export function About() {
         03 / ABOUT
       </h2>
 
-      <div
-        data-reveal="1"
-        className="max-w-[68ch] px-gutter pb-[clamp(48px,7vw,104px)]"
-      >
-        <p className="text-lead-lg font-medium leading-[1.32] tracking-[-0.02em] text-pretty text-fg">
-          {about[0]}
-        </p>
-        {about.slice(1).map((paragraph, index) => (
-          <p
-            key={index}
-            className="mt-[clamp(20px,2.5vw,28px)] text-body-lg leading-[1.6] text-pretty text-dim"
-          >
-            {paragraph}
+      <div className="grid grid-cols-1 gap-[clamp(32px,5vw,56px)] px-gutter pb-[clamp(48px,7vw,104px)] items-start min-[900px]:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
+        <div data-reveal="1" className="min-w-0 max-w-[60ch]">
+          <p className="text-lead-lg font-medium leading-[1.32] tracking-[-0.02em] text-pretty text-fg">
+            {about[0]}
           </p>
-        ))}
+          {about.slice(1).map((paragraph, index) => (
+            <p
+              key={index}
+              className="mt-[clamp(20px,2.5vw,28px)] text-body-lg leading-[1.6] text-pretty text-dim"
+            >
+              {paragraph}
+            </p>
+          ))}
+        </div>
+
+        <NoteLog />
       </div>
     </section>
   );

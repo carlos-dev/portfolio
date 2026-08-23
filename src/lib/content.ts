@@ -359,8 +359,27 @@ export const practices: Practice[] = [
   { name: "debug", text: "ler o erro inteiro antes de opinar" },
 ];
 
+// notes.log do about: frases que se digitam sozinhas, as antigas rolando para
+// fora por cima. É atmosfera, não dado de sistema.
+export type Note = { text: string; accent?: boolean };
+
+export const notes: Note[] = [
+  { text: 'commit -m "menos, porém preciso"' },
+  { text: "aprendi mais com bug em produção que com curso" },
+  { text: "café antes de opinar sobre arquitetura" },
+  { text: "o melhor código é o que eu não precisei escrever", accent: true },
+  { text: "domingo à noite = mexer no cutcast" },
+  { text: "ler o log inteiro. o inteiro mesmo." },
+  { text: "se trava, mede. não chuta." },
+  { text: "usuário feliz > diagrama bonito", accent: true },
+];
+
+export const NOTE_MAX_LINES = 6;
+export const NOTE_TYPING_SPEED = 22; // ms por caractere
+export const NOTE_PAUSE_MS = 2600; // respiro entre uma linha e a próxima
+
 export const about = [
-  "Sou o Carlos. Oito anos escrevendo software e, no fundo, sempre o mesmo trabalho: pegar um sistema confuso e deixar ele legível.",
-  "Prefiro o projeto pequeno que funciona de verdade ao grande que só existe no slide. Toco produto próprio porque gosto de estar perto de quem usa a coisa — o elogio e o bug chegam pelo mesmo canal, e isso mantém a régua honesta. O resto é ofício: ler o log inteiro, medir antes de mexer, cortar o que não serve.",
-  "Se você chegou até aqui lendo em vez de rolar, a gente provavelmente se entende.",
+  "Sou o Carlos. Sempre fui meio obcecado por tecnologia e por entender como as coisas funcionam. Programar acabou sendo a forma que encontrei de transformar essa curiosidade em coisas que realmente funcionam.",
+  "Nos últimos anos, minha atenção foi cada vez mais para inteligência artificial. Não só pelos modelos em si, mas pelo que começa a acontecer quando eles conseguem usar ferramentas, tomar decisões e executar tarefas. Agentes de IA, automação e esse novo jeito de construir software são coisas que realmente me empolgam.",
+  "Gosto de aprender fazendo. Uma ideia vira um projeto, o projeto vira um experimento, e quase sempre acabo descobrindo alguma coisa nova no caminho.",
 ] as const;
