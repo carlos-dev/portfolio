@@ -211,11 +211,10 @@ export type Stat = {
 export type Dep = {
   key: string;
   name: string;
-  // Ferramenta tem versão e lugar onde roda; método não tem nem um nem outro.
+  // Ferramenta tem versão; método não tem.
   version?: string;
   group: "dependencies" | "ai" | "infrastructure";
   desc: string;
-  used?: string;
 };
 
 export const deps: Dep[] = [
@@ -225,7 +224,6 @@ export const deps: Dep[] = [
     version: "^5.6",
     group: "dependencies",
     desc: "TypeScript está presente praticamente em tudo que desenvolvo. Gosto de ter os tipos bem definidos porque muita coisa que seria descoberta só em produção acaba aparecendo enquanto estou desenvolvendo.",
-    used: "cutcast",
   },
   {
     key: "next",
@@ -233,7 +231,6 @@ export const deps: Dep[] = [
     version: "^15.3",
     group: "dependencies",
     desc: "É minha principal escolha para aplicações web. O App Router, server actions e os recursos do próprio Next resolvem boa parte do que preciso sem transformar tudo em código no client.",
-    used: "cutcast · Radar do Congresso · leveme",
   },
   {
     key: "react",
@@ -241,7 +238,6 @@ export const deps: Dep[] = [
     version: "^19.0",
     group: "dependencies",
     desc: "É onde passo boa parte do meu tempo no front-end. Prefiro componentes simples e tento manter o estado o mais próximo possível de onde ele realmente é necessário.",
-    used: "cutcast · Fumasil · Radar do Congresso",
   },
   {
     key: "react-native",
@@ -249,7 +245,6 @@ export const deps: Dep[] = [
     version: "^0.76",
     group: "dependencies",
     desc: "A mesma base de React que já conheço, mas aplicada ao mobile. A parte interessante começa quando aparecem as diferenças do mundo nativo: listas grandes, teclado, animações e tudo que o navegador resolve por conta própria.",
-    used: "Fumasil",
   },
   {
     key: "node",
@@ -257,7 +252,6 @@ export const deps: Dep[] = [
     version: "^22 lts",
     group: "dependencies",
     desc: "É a peça que fica por trás de boa parte das integrações, jobs e automações. Quando alguma coisa precisa rodar fora da interface ou continuar trabalhando depois que o usuário foi embora, normalmente é aqui que ela termina.",
-    used: "cutcast · Fumasil",
   },
   {
     key: "tailwindcss",
@@ -265,7 +259,6 @@ export const deps: Dep[] = [
     version: "^4.0",
     group: "dependencies",
     desc: "Gosto da velocidade que ele traz para construir interfaces sem espalhar CSS pelo projeto inteiro. Também facilita manter espaçamento, tipografia e outros detalhes visuais consistentes.",
-    used: "cutcast · Fumasil · Radar do Congresso",
   },
   {
     key: "python",
@@ -280,7 +273,6 @@ export const deps: Dep[] = [
     version: "^1.7",
     group: "ai",
     desc: "É uma boa ferramenta para ligar serviços e automatizar processos sem precisar transformar cada fluxo em uma aplicação própria. A visualização de cada etapa também ajuda bastante na hora de descobrir onde alguma coisa parou.",
-    used: "cutcast",
   },
   {
     key: "mcp",
@@ -326,7 +318,6 @@ export const deps: Dep[] = [
     version: "^16",
     group: "infrastructure",
     desc: "É o banco que mais aparece nos meus projetos. Constraints, relacionamentos e validações ficam no próprio banco quando fazem sentido, porque os dados precisam continuar consistentes independentemente de quem estiver acessando.",
-    used: "cutcast · Radar do Congresso",
   },
   {
     key: "supabase",
@@ -334,7 +325,6 @@ export const deps: Dep[] = [
     version: "latest",
     group: "infrastructure",
     desc: "Resolve uma boa parte da infraestrutura que normalmente eu teria que montar sozinho: autenticação, banco, storage e realtime. O cuidado maior fica nas regras de acesso, principalmente quando entra RLS.",
-    used: "cutcast · Fumasil",
   },
   {
     key: "docker",
@@ -342,7 +332,6 @@ export const deps: Dep[] = [
     version: "latest",
     group: "infrastructure",
     desc: "Ajuda a manter o ambiente previsível entre desenvolvimento e produção. Também facilita bastante quando um projeto começa a depender de banco, serviços auxiliares e outras peças além da própria aplicação.",
-    used: "Radar do Congresso",
   },
 ];
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { sendContact, type ContactState } from "@/app/actions/contact";
 
 const initial: ContactState = { status: "idle", message: "" };
@@ -10,8 +10,41 @@ const labelClass =
 const fieldClass =
   "w-full border border-line bg-surface-2 px-3 py-2.5 font-mono text-[13px] leading-[1.5] text-fg caret-accent outline-none";
 
+// `useActionState` não tem reset. Trocar a key remonta a caixa e zera o
+// estado da action junto — por isso o wrapper existe.
 export function ContactForm() {
+  const [tentativa, setTentativa] = useState(0);
+  return (
+    <ContactFormBox
+      key={tentativa}
+      reaberto={tentativa > 0}
+      onNovaMensagem={() => setTentativa((anterior) => anterior + 1)}
+    />
+  );
+}
+
+function ContactFormBox({
+  reaberto,
+  onNovaMensagem,
+}: {
+  reaberto: boolean;
+  onNovaMensagem: () => void;
+}) {
   const [state, formAction, pending] = useActionState(sendContact, initial);
+  const sucessoRef = useRef<HTMLDivElement>(null);
+  const nomeRef = useRef<HTMLInputElement>(null);
+
+  // Trocar o formulário pelo bloco de sucesso destrói o botão que estava com
+  // o foco, e ele cairia no <body>. Manda o foco para a confirmação, que é
+  // onde a pessoa precisa estar.
+  useEffect(() => {
+    if (state.status === "success") sucessoRef.current?.focus();
+  }, [state.status]);
+
+  // Mesmo problema na volta: quem clicou em "nova mensagem" perde o botão.
+  useEffect(() => {
+    if (reaberto) nomeRef.current?.focus();
+  }, [reaberto]);
 
   return (
     <div className="relative mb-[clamp(40px,5vw,64px)] max-w-[640px] border border-line bg-surface">
@@ -27,18 +60,29 @@ export function ContactForm() {
       </div>
 
       {state.status === "success" ? (
-        <div
-          role="status"
-          aria-live="polite"
-          className="px-4 py-7 font-mono text-[13px] leading-[1.9]"
-        >
-          <div className="text-fg">
-            <span className="text-accent">$</span> ./send.sh
+        <div className="px-4 py-7 font-mono text-[13px] leading-[1.9]">
+          <div
+            ref={sucessoRef}
+            tabIndex={-1}
+            role="status"
+            aria-live="polite"
+            className="outline-none"
+          >
+            <div className="text-fg">
+              <span className="text-accent">$</span> ./send.sh
+            </div>
+            <div className="text-accent">{"> message delivered ✓"}</div>
+            <div className="text-dim-2">
+              {"> respondo em <24h. valeu por escrever."}
+            </div>
           </div>
-          <div className="text-accent">{"> message delivered ✓"}</div>
-          <div className="text-dim-2">
-            {"> respondo em <24h. valeu por escrever."}
-          </div>
+          <button
+            type="button"
+            onClick={onNovaMensagem}
+            className="mt-5 cursor-pointer border border-line bg-transparent px-3 py-1.5 font-mono text-[12.5px] text-dim-2 transition-colors duration-[140ms] hover:border-accent hover:text-accent"
+          >
+            $ nova mensagem
+          </button>
         </div>
       ) : (
         <form action={formAction} className="p-4">
@@ -65,6 +109,7 @@ export function ContactForm() {
                 </label>
                 <input
                   id="name"
+                  ref={nomeRef}
                   name="name"
                   type="text"
                   required

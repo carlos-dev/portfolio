@@ -142,15 +142,6 @@ export function Stack() {
               ? current.desc
               : "Passe o mouse (ou tab) por uma dependência para ver o que eu realmente faço com ela — sem barrinha de porcentagem."}
           </p>
-          <div className="mt-6 border-t border-line pt-[18px] font-mono text-[11px] text-dim-2">
-            {/* Método não tem "onde roda" — só ferramenta tem. */}
-            {current && !current.used ? null : (
-              <>
-                <span className="text-dim-3">used in:</span>{" "}
-                {current ? current.used : "—"}
-              </>
-            )}
-          </div>
         </div>
       </div>
     </section>
