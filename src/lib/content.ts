@@ -25,7 +25,7 @@ export const profile = {
   product: "cutcast.com.br",
   productUrl: "https://cutcast.com.br",
   tagline:
-    "Construo sistemas de dados que precisam ficar de pé sozinhos. Este site é um deles.",
+    "Software, tecnologia e algumas ideias pelo caminho.",
 } as const;
 
 export type TermLine = { prefix: string; text: string; color: string };
@@ -373,7 +373,9 @@ export const notes: Note[] = [
   { text: "usuário feliz > diagrama bonito", accent: true },
 ];
 
-export const NOTE_MAX_LINES = 8;
+// Sempre abaixo do total de frases: se couber tudo na tela, alguma repete e o
+// log para de rolar. Derivado para não envelhecer quando a lista mudar.
+export const NOTE_MAX_LINES = Math.max(4, notes.length - 1);
 export const NOTE_TYPING_SPEED = 22; // ms por caractere
 export const NOTE_PAUSE_MS = 2600; // respiro entre uma linha e a próxima
 
