@@ -12,16 +12,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const clip = (value: string, max: number) => value.trim().slice(0, max);
 
 
-// O código que a Resend devolveu vai para a tela junto com o valor exato do
-// remetente. Não é segredo — é nome de erro e um endereço que já é público no
-// cabeçalho de todo e-mail enviado — e sem isso quem depura fica dependendo de
-// acesso ao log da hospedagem. Os canais diretos seguem na página do mesmo
-// jeito. Remover quando o envio estiver estável.
-function detalharErro(erro: unknown, from: string) {
-  const dados = erro as { name?: string; statusCode?: number };
-  return ` [${dados.name ?? "erro"} · ${dados.statusCode ?? "?"} · from=${JSON.stringify(from)}]`;
-}
-
 export async function sendContact(
   _prev: ContactState,
   formData: FormData,
@@ -69,7 +59,7 @@ export async function sendContact(
       console.error("Resend error:", error, { from, to });
       return {
         status: "error",
-        message: `falha no envio${detalharErro(error, from)} — tente novamente ou use o e-mail direto`,
+        message: "falha no envio — tente novamente ou use o e-mail direto",
       };
     }
 
