@@ -11,6 +11,16 @@ export type ContactState = {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const clip = (value: string, max: number) => value.trim().slice(0, max);
 
+
+// Diagnóstico temporário, ligado só com CONTACT_DEBUG=1 no ambiente. Sem a
+// variável a mensagem continua genérica — o detalhe do erro é assunto de log,
+// não de tela. Serve para descobrir a causa em produção sem caçar log.
+function detalharErro(erro: unknown, from: string) {
+  if (process.env.CONTACT_DEBUG !== "1") return "";
+  const dados = erro as { name?: string; statusCode?: number };
+  return ` [${dados.name ?? "erro"} · ${dados.statusCode ?? "?"} · from=${JSON.stringify(from)}]`;
+}
+
 export async function sendContact(
   _prev: ContactState,
   formData: FormData,
@@ -53,10 +63,12 @@ export async function sendContact(
     });
 
     if (error) {
-      console.error("Resend error:", error);
+      // O `from` vai junto no log: erro de remetente é a falha mais comum
+      // aqui, e ver o valor exato denuncia aspas que vieram no copiar-colar.
+      console.error("Resend error:", error, { from, to });
       return {
         status: "error",
-        message: "falha no envio — tente novamente ou use o e-mail direto",
+        message: `falha no envio${detalharErro(error, from)} — tente novamente ou use o e-mail direto`,
       };
     }
 
