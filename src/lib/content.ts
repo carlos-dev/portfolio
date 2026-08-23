@@ -369,12 +369,11 @@ export const notes: Note[] = [
   { text: "café antes de opinar sobre arquitetura" },
   { text: "o melhor código é o que eu não precisei escrever", accent: true },
   { text: "domingo à noite = mexer no cutcast" },
-  { text: "ler o log inteiro. o inteiro mesmo." },
   { text: "se trava, mede. não chuta." },
   { text: "usuário feliz > diagrama bonito", accent: true },
 ];
 
-export const NOTE_MAX_LINES = 6;
+export const NOTE_MAX_LINES = 8;
 export const NOTE_TYPING_SPEED = 22; // ms por caractere
 export const NOTE_PAUSE_MS = 2600; // respiro entre uma linha e a próxima
 

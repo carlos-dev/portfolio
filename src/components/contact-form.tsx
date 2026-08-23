@@ -147,7 +147,7 @@ function ContactFormBox({
                 minLength={10}
                 maxLength={4000}
                 rows={5}
-                placeholder="o que você quer colocar de pé?"
+                placeholder="Qual a ideia?"
                 className={`${fieldClass} resize-y`}
               />
             </div>

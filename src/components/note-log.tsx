@@ -92,9 +92,9 @@ export function NoteLog() {
   return (
     <div
       data-reveal="1"
-      // Sem self-stretch: esticar junto com a coluna de texto deixava o log
-      // (que é alinhado embaixo) com um vazio enorme no topo. Aqui ele fica na
-      // própria altura e cheio.
+      // Altura própria, não a da coluna de texto: acompanhar o texto levava o
+      // painel a 610px e, como o log é alinhado embaixo, virava um vazio. O
+      // teto aqui é o número de frases — mais altura só rende espaço vago.
       className="flex min-w-0 flex-col border border-line bg-surface-3"
     >
       <div className="flex flex-none items-center justify-between gap-3 border-b border-line px-4 py-3 font-mono text-[10px] tracking-[0.14em] text-dim-3">
@@ -114,7 +114,7 @@ export function NoteLog() {
         // depois do boot porque lá as respostas de comando são pedidas.
         aria-live="off"
         aria-label="Notas pessoais"
-        className="flex min-h-[clamp(200px,26vh,300px)] flex-1 flex-col justify-end gap-0.5 overflow-hidden p-4 font-mono text-term leading-[1.9]"
+        className="flex min-h-[clamp(250px,33vh,360px)] flex-1 flex-col justify-end gap-0.5 overflow-hidden p-4 font-mono text-term leading-[1.9]"
       >
         {lines.map((line, index) => (
           <div

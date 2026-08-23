@@ -129,9 +129,7 @@ export function SiteFooter({ stamp }: { stamp: string }) {
           data-reveal="1"
           className="mt-[clamp(24px,3vw,40px)] mb-[clamp(32px,4vw,56px)] text-title font-extrabold leading-[0.92] tracking-[-0.045em]"
         >
-          Tem um sistema
-          <br />
-          para colocar de pé
+          Bora trocar uma ideia
           <span className="text-accent">?</span>
         </h2>
 
