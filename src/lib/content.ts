@@ -273,7 +273,6 @@ export const deps: Dep[] = [
     version: "^3.12",
     group: "dependencies",
     desc: "Quando o problema envolve dados, processamento ou algum script específico, Python costuma ser a escolha mais simples. Nem tudo precisa virar um serviço ou uma aplicação completa.",
-    used: "fora dos projetos em vitrine",
   },
   {
     key: "n8n",
@@ -289,7 +288,6 @@ export const deps: Dep[] = [
     version: "latest",
     group: "ai",
     desc: "Uma forma mais estruturada de conectar modelos a ferramentas e dados externos. A parte que mais me interessa é definir exatamente o que o modelo pode fazer — e principalmente o que ele não pode.",
-    used: "ferramental próprio",
   },
   {
     key: "langfuse",
@@ -297,7 +295,6 @@ export const deps: Dep[] = [
     version: "^3.0",
     group: "ai",
     desc: "Em aplicações com IA, saber apenas a resposta final não é suficiente. Traces, custos e avaliações ajudam a entender o que aconteceu durante a execução e se uma mudança realmente trouxe alguma melhora.",
-    used: "ferramental próprio",
   },
   {
     key: "prompt",
