@@ -12,11 +12,12 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const clip = (value: string, max: number) => value.trim().slice(0, max);
 
 
-// Diagnóstico temporário, ligado só com CONTACT_DEBUG=1 no ambiente. Sem a
-// variável a mensagem continua genérica — o detalhe do erro é assunto de log,
-// não de tela. Serve para descobrir a causa em produção sem caçar log.
+// O código que a Resend devolveu vai para a tela junto com o valor exato do
+// remetente. Não é segredo — é nome de erro e um endereço que já é público no
+// cabeçalho de todo e-mail enviado — e sem isso quem depura fica dependendo de
+// acesso ao log da hospedagem. Os canais diretos seguem na página do mesmo
+// jeito. Remover quando o envio estiver estável.
 function detalharErro(erro: unknown, from: string) {
-  if (process.env.CONTACT_DEBUG !== "1") return "";
   const dados = erro as { name?: string; statusCode?: number };
   return ` [${dados.name ?? "erro"} · ${dados.statusCode ?? "?"} · from=${JSON.stringify(from)}]`;
 }
